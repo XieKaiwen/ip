@@ -59,6 +59,22 @@ public class Quackie {
                 } else {
                     System.out.println(" I couldn't find that task.");
                 }
+            } else if (command.startsWith("event ")) {
+                String details = command.substring("event".length()).trim();
+                int fromMarker = details.indexOf(" /from ");
+                int toMarker = details.indexOf(" /to ", fromMarker + " /from ".length());
+                String description = fromMarker >= 0 ? details.substring(0, fromMarker) : details;
+                String from = fromMarker >= 0 && toMarker >= 0
+                        ? details.substring(fromMarker + " /from ".length(), toMarker) : "";
+                String to = toMarker >= 0 ? details.substring(toMarker + " /to ".length()) : "";
+                Task task = new Event(description, from, to);
+                if (taskCount < MAX_TASKS) {
+                    tasks[taskCount] = task;
+                    taskCount++;
+                }
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + task);
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
             } else if (command.startsWith("deadline ")) {
                 String details = command.substring("deadline".length()).trim();
                 int byMarker = details.indexOf(" /by ");
