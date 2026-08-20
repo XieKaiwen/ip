@@ -88,22 +88,22 @@ public class Quackie {
                 System.out.println(" Got it. I've added this task:");
                 System.out.println("   " + task);
                 System.out.println(" Now you have " + taskCount + " tasks in the list.");
-            } else {
-                boolean isTodoCommand = command.startsWith("todo ");
-                String description = isTodoCommand
-                        ? command.substring("todo".length()).trim() : command;
-                Task task = new ToDo(description);
-                if (taskCount < MAX_TASKS) {
-                    tasks[taskCount] = task;
-                    taskCount++;
-                }
-                if (isTodoCommand) {
+            } else if (command.equals("todo") || command.startsWith("todo ")) {
+                String description = command.substring("todo".length()).trim();
+                if (description.isBlank()) {
+                    System.out.println(" OOPS!!! A ToDo needs a description.");
+                } else {
+                    Task task = new ToDo(description);
+                    if (taskCount < MAX_TASKS) {
+                        tasks[taskCount] = task;
+                        taskCount++;
+                    }
                     System.out.println(" Got it. I've added this task:");
                     System.out.println("   " + task);
                     System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                } else {
-                    System.out.println(" added: " + command);
                 }
+            } else {
+                System.out.println(" OOPS!!! I don't recognize that command.");
             }
 
             System.out.println(separator);
