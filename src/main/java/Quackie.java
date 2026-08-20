@@ -36,30 +36,32 @@ public class Quackie {
                 return;
             }
 
-            if (command.equals("list")) {
+            if (command.isBlank()) {
+                System.out.println(" OOPS!!! Please enter a command.");
+            } else if (command.equals("list")) {
                 System.out.println(" Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
                     System.out.println(" " + (i + 1) + "." + tasks[i]);
                 }
-            } else if (command.startsWith("mark ")) {
+            } else if (command.equals("mark") || command.startsWith("mark ")) {
                 int taskIndex = getTaskIndex(command, "mark", taskCount);
                 if (taskIndex >= 0) {
                     tasks[taskIndex].markAsDone();
                     System.out.println(" Nice! I've marked this task as done:");
                     System.out.println("   " + tasks[taskIndex]);
                 } else {
-                    System.out.println(" I couldn't find that task.");
+                    System.out.println(" OOPS!!! Please provide a valid task number.");
                 }
-            } else if (command.startsWith("unmark ")) {
+            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
                 int taskIndex = getTaskIndex(command, "unmark", taskCount);
                 if (taskIndex >= 0) {
                     tasks[taskIndex].markAsUndone();
                     System.out.println(" OK, I've marked this task as not done yet:");
                     System.out.println("   " + tasks[taskIndex]);
                 } else {
-                    System.out.println(" I couldn't find that task.");
+                    System.out.println(" OOPS!!! Please provide a valid task number.");
                 }
-            } else if (command.startsWith("event ")) {
+            } else if (command.equals("event") || command.startsWith("event ")) {
                 String details = command.substring("event".length()).trim();
                 int fromMarker = details.indexOf(" /from ");
                 int toMarker = details.indexOf(" /to ", fromMarker + " /from ".length());
@@ -67,27 +69,35 @@ public class Quackie {
                 String from = fromMarker >= 0 && toMarker >= 0
                         ? details.substring(fromMarker + " /from ".length(), toMarker) : "";
                 String to = toMarker >= 0 ? details.substring(toMarker + " /to ".length()) : "";
-                Task task = new Event(description, from, to);
-                if (taskCount < MAX_TASKS) {
-                    tasks[taskCount] = task;
-                    taskCount++;
+                if (description.isBlank() || from.isBlank() || to.isBlank()) {
+                    System.out.println(" OOPS!!! An event needs a description, /from time, and /to time.");
+                } else {
+                    Task task = new Event(description.trim(), from.trim(), to.trim());
+                    if (taskCount < MAX_TASKS) {
+                        tasks[taskCount] = task;
+                        taskCount++;
+                    }
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + task);
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 }
-                System.out.println(" Got it. I've added this task:");
-                System.out.println("   " + task);
-                System.out.println(" Now you have " + taskCount + " tasks in the list.");
-            } else if (command.startsWith("deadline ")) {
+            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
                 String details = command.substring("deadline".length()).trim();
                 int byMarker = details.indexOf(" /by ");
                 String description = byMarker >= 0 ? details.substring(0, byMarker) : details;
                 String by = byMarker >= 0 ? details.substring(byMarker + " /by ".length()) : "";
-                Task task = new Deadline(description, by);
-                if (taskCount < MAX_TASKS) {
-                    tasks[taskCount] = task;
-                    taskCount++;
+                if (description.isBlank() || by.isBlank()) {
+                    System.out.println(" OOPS!!! A deadline needs a description and a /by date or time.");
+                } else {
+                    Task task = new Deadline(description.trim(), by.trim());
+                    if (taskCount < MAX_TASKS) {
+                        tasks[taskCount] = task;
+                        taskCount++;
+                    }
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + task);
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 }
-                System.out.println(" Got it. I've added this task:");
-                System.out.println("   " + task);
-                System.out.println(" Now you have " + taskCount + " tasks in the list.");
             } else if (command.equals("todo") || command.startsWith("todo ")) {
                 String description = command.substring("todo".length()).trim();
                 if (description.isBlank()) {
