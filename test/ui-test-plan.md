@@ -5,12 +5,12 @@ These tests exercise Quackie's interactive command-line behavior. Each test case
 - Compile command: `javac -d /tmp/ui-test-classes src/main/java/*.java`
 - Program command: `java -cp /tmp/ui-test-classes Quackie`
 
-## Test Case 1: Add a task and list its status
+## Test Case 1: Add a ToDo and list it
 
-- Aim: Verify that ordinary text is stored as a not-done task and displayed by `list`.
+- Aim: Verify that `todo` creates a ToDo task and that `list` displays its type and not-done status.
 - Inputs:
   ```text
-  read book
+  todo read book
   list
   bye
   ```
@@ -27,24 +27,26 @@ Hello! I'm Quackie.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
- added: read book
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[ ] read book
+ 1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 2: Mark a task as done
+## Test Case 2: Mark a ToDo as done
 
-- Aim: Verify that `mark N` changes the selected task to done and that `list` shows `[X]`.
+- Aim: Verify that `mark N` changes a ToDo's status to done and that `list` shows `[X]`.
 - Inputs:
   ```text
-  read book
-  return book
+  todo read book
+  todo return book
   mark 2
   list
   bye
@@ -62,32 +64,36 @@ Hello! I'm Quackie.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
- added: read book
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
- added: return book
+ Got it. I've added this task:
+   [T][ ] return book
+ Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [X] return book
+   [T][X] return book
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[ ] read book
- 2.[X] return book
+ 1.[T][ ] read book
+ 2.[T][X] return book
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 3: Reverse a task's done status
+## Test Case 3: Reverse a ToDo's done status
 
-- Aim: Verify that `unmark N` changes a completed task back to not done.
+- Aim: Verify that `unmark N` changes a completed ToDo back to not done.
 - Inputs:
   ```text
-  read book
-  return book
+  todo read book
+  todo return book
   mark 2
   unmark 2
   list
@@ -106,23 +112,27 @@ Hello! I'm Quackie.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
- added: read book
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
- added: return book
+ Got it. I've added this task:
+   [T][ ] return book
+ Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [X] return book
+   [T][X] return book
 ____________________________________________________________
 ____________________________________________________________
  OK, I've marked this task as not done yet:
-   [ ] return book
+   [T][ ] return book
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[ ] read book
- 2.[ ] return book
+ 1.[T][ ] read book
+ 2.[T][ ] return book
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

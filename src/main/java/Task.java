@@ -34,8 +34,17 @@ public class Task {
         return isDone ? "X" : " ";
     }
 
+    /**
+     * Returns the icon identifying this task type.
+     *
+     * @return the task type icon, or an empty string for a generic task
+     */
+    protected String getTypeIcon() {
+        return "";
+    }
+
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return getTypeIcon() + "[" + getStatusIcon() + "] " + description;
     }
 }

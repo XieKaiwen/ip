@@ -60,11 +60,21 @@ public class Quackie {
                     System.out.println(" I couldn't find that task.");
                 }
             } else {
+                boolean isTodoCommand = command.startsWith("todo ");
+                String description = isTodoCommand
+                        ? command.substring("todo".length()).trim() : command;
+                Task task = new ToDo(description);
                 if (taskCount < MAX_TASKS) {
-                    tasks[taskCount] = new Task(command);
+                    tasks[taskCount] = task;
                     taskCount++;
                 }
-                System.out.println(" added: " + command);
+                if (isTodoCommand) {
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + task);
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                } else {
+                    System.out.println(" added: " + command);
+                }
             }
 
             System.out.println(separator);
