@@ -30,104 +30,116 @@ public class Quackie {
             String command = scanner.nextLine();
             System.out.println(separator);
 
-            if (command.equals("bye")) {
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println(separator);
-                return;
-            }
-
             if (command.isBlank()) {
                 System.out.println(" OOPS!!! Please enter a command.");
-            } else if (command.equals("list")) {
-                System.out.println(" Here are the tasks in your list:");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + "." + tasks[i]);
-                }
-            } else if (command.equals("delete") || command.startsWith("delete ")) {
-                int taskIndex = getTaskIndex(command, "delete", taskCount);
-                if (taskIndex >= 0) {
-                    Task removedTask = tasks[taskIndex];
-                    for (int i = taskIndex; i < taskCount - 1; i++) {
-                        tasks[i] = tasks[i + 1];
-                    }
-                    tasks[--taskCount] = null;
-                    System.out.println(" Noted. I've removed this task:");
-                    System.out.println("   " + removedTask);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                } else {
-                    System.out.println(" OOPS!!! Please provide a valid task number.");
-                }
-            } else if (command.equals("mark") || command.startsWith("mark ")) {
-                int taskIndex = getTaskIndex(command, "mark", taskCount);
-                if (taskIndex >= 0) {
-                    tasks[taskIndex].markAsDone();
-                    System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   " + tasks[taskIndex]);
-                } else {
-                    System.out.println(" OOPS!!! Please provide a valid task number.");
-                }
-            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-                int taskIndex = getTaskIndex(command, "unmark", taskCount);
-                if (taskIndex >= 0) {
-                    tasks[taskIndex].markAsUndone();
-                    System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   " + tasks[taskIndex]);
-                } else {
-                    System.out.println(" OOPS!!! Please provide a valid task number.");
-                }
-            } else if (command.equals("event") || command.startsWith("event ")) {
-                String details = command.substring("event".length()).trim();
-                int fromMarker = details.indexOf(" /from ");
-                int toMarker = details.indexOf(" /to ", fromMarker + " /from ".length());
-                String description = fromMarker >= 0 ? details.substring(0, fromMarker) : details;
-                String from = fromMarker >= 0 && toMarker >= 0
-                        ? details.substring(fromMarker + " /from ".length(), toMarker) : "";
-                String to = toMarker >= 0 ? details.substring(toMarker + " /to ".length()) : "";
-                if (description.isBlank() || from.isBlank() || to.isBlank()) {
-                    System.out.println(" OOPS!!! An event needs a description, /from time, and /to time.");
-                } else {
-                    Task task = new Event(description.trim(), from.trim(), to.trim());
-                    if (taskCount < MAX_TASKS) {
-                        tasks[taskCount] = task;
-                        taskCount++;
-                    }
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + task);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                }
-            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
-                String details = command.substring("deadline".length()).trim();
-                int byMarker = details.indexOf(" /by ");
-                String description = byMarker >= 0 ? details.substring(0, byMarker) : details;
-                String by = byMarker >= 0 ? details.substring(byMarker + " /by ".length()) : "";
-                if (description.isBlank() || by.isBlank()) {
-                    System.out.println(" OOPS!!! A deadline needs a description and a /by date or time.");
-                } else {
-                    Task task = new Deadline(description.trim(), by.trim());
-                    if (taskCount < MAX_TASKS) {
-                        tasks[taskCount] = task;
-                        taskCount++;
-                    }
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + task);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                }
-            } else if (command.equals("todo") || command.startsWith("todo ")) {
-                String description = command.substring("todo".length()).trim();
-                if (description.isBlank()) {
-                    System.out.println(" OOPS!!! A ToDo needs a description.");
-                } else {
-                    Task task = new ToDo(description);
-                    if (taskCount < MAX_TASKS) {
-                        tasks[taskCount] = task;
-                        taskCount++;
-                    }
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + task);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                }
             } else {
-                System.out.println(" OOPS!!! I don't recognize that command.");
+                switch (CommandType.fromInput(command)) {
+                case BYE:
+                    System.out.println("Bye. Hope to see you again soon!");
+                    System.out.println(separator);
+                    return;
+                case LIST:
+                    System.out.println(" Here are the tasks in your list:");
+                    for (int i = 0; i < taskCount; i++) {
+                        System.out.println(" " + (i + 1) + "." + tasks[i]);
+                    }
+                    break;
+                case DELETE:
+                    int deleteIndex = getTaskIndex(command, "delete", taskCount);
+                    if (deleteIndex >= 0) {
+                        Task removedTask = tasks[deleteIndex];
+                        for (int i = deleteIndex; i < taskCount - 1; i++) {
+                            tasks[i] = tasks[i + 1];
+                        }
+                        tasks[--taskCount] = null;
+                        System.out.println(" Noted. I've removed this task:");
+                        System.out.println("   " + removedTask);
+                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    } else {
+                        System.out.println(" OOPS!!! Please provide a valid task number.");
+                    }
+                    break;
+                case MARK:
+                    int markIndex = getTaskIndex(command, "mark", taskCount);
+                    if (markIndex >= 0) {
+                        tasks[markIndex].markAsDone();
+                        System.out.println(" Nice! I've marked this task as done:");
+                        System.out.println("   " + tasks[markIndex]);
+                    } else {
+                        System.out.println(" OOPS!!! Please provide a valid task number.");
+                    }
+                    break;
+                case UNMARK:
+                    int unmarkIndex = getTaskIndex(command, "unmark", taskCount);
+                    if (unmarkIndex >= 0) {
+                        tasks[unmarkIndex].markAsUndone();
+                        System.out.println(" OK, I've marked this task as not done yet:");
+                        System.out.println("   " + tasks[unmarkIndex]);
+                    } else {
+                        System.out.println(" OOPS!!! Please provide a valid task number.");
+                    }
+                    break;
+                case EVENT:
+                    String eventDetails = command.substring("event".length()).trim();
+                    int fromMarker = eventDetails.indexOf(" /from ");
+                    int toMarker = eventDetails.indexOf(" /to ", fromMarker + " /from ".length());
+                    String eventDescription = fromMarker >= 0
+                            ? eventDetails.substring(0, fromMarker) : eventDetails;
+                    String from = fromMarker >= 0 && toMarker >= 0
+                            ? eventDetails.substring(fromMarker + " /from ".length(), toMarker) : "";
+                    String to = toMarker >= 0 ? eventDetails.substring(toMarker + " /to ".length()) : "";
+                    if (eventDescription.isBlank() || from.isBlank() || to.isBlank()) {
+                        System.out.println(" OOPS!!! An event needs a description, /from time, and /to time.");
+                    } else {
+                        Task task = new Event(eventDescription.trim(), from.trim(), to.trim());
+                        if (taskCount < MAX_TASKS) {
+                            tasks[taskCount] = task;
+                            taskCount++;
+                        }
+                        System.out.println(" Got it. I've added this task:");
+                        System.out.println("   " + task);
+                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    }
+                    break;
+                case DEADLINE:
+                    String deadlineDetails = command.substring("deadline".length()).trim();
+                    int byMarker = deadlineDetails.indexOf(" /by ");
+                    String deadlineDescription = byMarker >= 0
+                            ? deadlineDetails.substring(0, byMarker) : deadlineDetails;
+                    String by = byMarker >= 0
+                            ? deadlineDetails.substring(byMarker + " /by ".length()) : "";
+                    if (deadlineDescription.isBlank() || by.isBlank()) {
+                        System.out.println(" OOPS!!! A deadline needs a description and a /by date or time.");
+                    } else {
+                        Task task = new Deadline(deadlineDescription.trim(), by.trim());
+                        if (taskCount < MAX_TASKS) {
+                            tasks[taskCount] = task;
+                            taskCount++;
+                        }
+                        System.out.println(" Got it. I've added this task:");
+                        System.out.println("   " + task);
+                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    }
+                    break;
+                case TODO:
+                    String description = command.substring("todo".length()).trim();
+                    if (description.isBlank()) {
+                        System.out.println(" OOPS!!! A ToDo needs a description.");
+                    } else {
+                        Task task = new ToDo(description);
+                        if (taskCount < MAX_TASKS) {
+                            tasks[taskCount] = task;
+                            taskCount++;
+                        }
+                        System.out.println(" Got it. I've added this task:");
+                        System.out.println("   " + task);
+                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    }
+                    break;
+                case UNKNOWN:
+                    System.out.println(" OOPS!!! I don't recognize that command.");
+                    break;
+                }
             }
 
             System.out.println(separator);
