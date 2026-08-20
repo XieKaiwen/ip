@@ -40,6 +40,215 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
+## Test Case 15: Reject invalid delete task numbers
+
+- Aim: Verify that missing, zero, out-of-range, and non-numeric delete arguments do not change the task list.
+- Inputs:
+  ```text
+  todo read book
+  delete
+  delete 0
+  delete 99
+  delete nope
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 14: Delete the only task
+
+- Aim: Verify that deleting the only task leaves an empty list and reports zero tasks.
+- Inputs:
+  ```text
+  todo only task
+  delete 1
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] only task
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] only task
+ Now you have 0 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 13: Compact the list after deleting first and last tasks
+
+- Aim: Verify that deleting tasks at both ends shifts the remaining task into the correct list position.
+- Inputs:
+  ```text
+  todo first
+  todo second
+  todo third
+  delete 1
+  delete 2
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] first
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] second
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] third
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] first
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] third
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] second
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 12: Delete a completed task from mixed task types
+
+- Aim: Verify that delete removes the selected task while preserving the remaining task types and statuses.
+- Inputs:
+  ```text
+  todo read book
+  deadline return book /by Sunday
+  event project meeting /from Mon 2pm /to 4pm
+  mark 2
+  delete 2
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [D][X] return book (by: Sunday)
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [D][X] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+ 2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
 ## Test Case 2: Mark a ToDo as done
 
 - Aim: Verify that `mark N` changes a ToDo's status to done and that `list` shows `[X]`.

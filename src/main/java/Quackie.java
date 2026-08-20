@@ -43,6 +43,20 @@ public class Quackie {
                 for (int i = 0; i < taskCount; i++) {
                     System.out.println(" " + (i + 1) + "." + tasks[i]);
                 }
+            } else if (command.equals("delete") || command.startsWith("delete ")) {
+                int taskIndex = getTaskIndex(command, "delete", taskCount);
+                if (taskIndex >= 0) {
+                    Task removedTask = tasks[taskIndex];
+                    for (int i = taskIndex; i < taskCount - 1; i++) {
+                        tasks[i] = tasks[i + 1];
+                    }
+                    tasks[--taskCount] = null;
+                    System.out.println(" Noted. I've removed this task:");
+                    System.out.println("   " + removedTask);
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                } else {
+                    System.out.println(" OOPS!!! Please provide a valid task number.");
+                }
             } else if (command.equals("mark") || command.startsWith("mark ")) {
                 int taskIndex = getTaskIndex(command, "mark", taskCount);
                 if (taskIndex >= 0) {
@@ -121,10 +135,10 @@ public class Quackie {
     }
 
     /**
-     * Converts the task number in a mark or unmark command into a zero-based array index.
+     * Converts the task number in a mark, unmark, or delete command into a zero-based array index.
      *
      * @param command the complete command entered by the user
-     * @param keyword the command keyword, either {@code mark} or {@code unmark}
+     * @param keyword the command keyword, such as {@code mark}, {@code unmark}, or {@code delete}
      * @param taskCount the number of tasks currently stored
      * @return the corresponding zero-based index, or {@code -1} for an invalid number
      */
