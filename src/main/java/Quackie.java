@@ -59,6 +59,19 @@ public class Quackie {
                 } else {
                     System.out.println(" I couldn't find that task.");
                 }
+            } else if (command.startsWith("deadline ")) {
+                String details = command.substring("deadline".length()).trim();
+                int byMarker = details.indexOf(" /by ");
+                String description = byMarker >= 0 ? details.substring(0, byMarker) : details;
+                String by = byMarker >= 0 ? details.substring(byMarker + " /by ".length()) : "";
+                Task task = new Deadline(description, by);
+                if (taskCount < MAX_TASKS) {
+                    tasks[taskCount] = task;
+                    taskCount++;
+                }
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + task);
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
             } else {
                 boolean isTodoCommand = command.startsWith("todo ");
                 String description = isTodoCommand
