@@ -24,6 +24,7 @@ public class Quackie {
 
         Scanner scanner = new Scanner(System.in);
         String[] tasks = new String[MAX_TASKS];
+        boolean[] taskDone = new boolean[MAX_TASKS];
         int taskCount = 0;
 
         while (scanner.hasNextLine()) {
@@ -37,8 +38,19 @@ public class Quackie {
             }
 
             if (command.equals("list")) {
+                System.out.println(" Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + ". " + tasks[i]);
+                    String statusIcon = taskDone[i] ? "X" : " ";
+                    System.out.println(" " + (i + 1) + ".[" + statusIcon + "] " + tasks[i]);
+                }
+            } else if (command.startsWith("mark ")) {
+                int taskIndex = getTaskIndex(command, taskCount);
+                if (taskIndex >= 0) {
+                    taskDone[taskIndex] = true;
+                    System.out.println(" Nice! I've marked this task as done:");
+                    System.out.println("   [X] " + tasks[taskIndex]);
+                } else {
+                    System.out.println(" I couldn't find that task.");
                 }
             } else {
                 if (taskCount < MAX_TASKS) {
@@ -49,6 +61,22 @@ public class Quackie {
             }
 
             System.out.println(separator);
+        }
+    }
+
+    /**
+     * Converts the task number in a mark command into a zero-based array index.
+     *
+     * @param command the complete command entered by the user
+     * @param taskCount the number of tasks currently stored
+     * @return the corresponding zero-based index, or {@code -1} for an invalid number
+     */
+    private static int getTaskIndex(String command, int taskCount) {
+        try {
+            int taskNumber = Integer.parseInt(command.substring("mark".length()).trim());
+            return taskNumber >= 1 && taskNumber <= taskCount ? taskNumber - 1 : -1;
+        } catch (NumberFormatException exception) {
+            return -1;
         }
     }
 }
