@@ -629,11 +629,12 @@ ____________________________________________________________
 ## Test Case 16: Save tasks before restart
 
 * Aim: Verify that adding tasks writes their descriptions, types, and statuses to the data file.
-Program command: ```rm -f data/quackie.txt && java -cp /tmp/ui-test-classes Quackie```
+Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes Quackie```
 * Inputs:
   ```text
   todo read book
   deadline return book /by Sunday
+  mark 2
   bye
   ```
 * Expected output:
@@ -657,6 +658,10 @@ ____________________________________________________________
  Got it. I've added this task:
    [D][ ] return book (by: Sunday)
  Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [D][X] return book (by: Sunday)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -687,7 +692,7 @@ ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] read book
- 2.[D][ ] return book (by: Sunday)
+ 2.[D][X] return book (by: Sunday)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
