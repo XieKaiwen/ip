@@ -20,6 +20,15 @@ public class Deadline extends Task {
         return "[D]";
     }
 
+    /**
+     * Returns the date or time by which this task should be completed.
+     *
+     * @return the deadline value
+     */
+    public String getBy() {
+        return by;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (by: " + by + ")";
