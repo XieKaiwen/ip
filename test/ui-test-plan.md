@@ -693,3 +693,62 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
+
+## Test Case 18: Start without a data file
+
+* Aim: Verify that Quackie starts with an empty list when no data file exists.
+Program command: ```rm -f data/quackie.txt && java -cp /tmp/ui-test-classes Quackie```
+* Inputs:
+  ```text
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 19: Handle a malformed data file
+
+* Aim: Verify that malformed saved data is reported and does not prevent a fresh session.
+Program command: ```rm -f data/quackie.txt && mkdir -p data && printf 'corrupt-record\n' > data/quackie.txt && java -cp /tmp/ui-test-classes Quackie```
+* Inputs:
+  ```text
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+ OOPS!!! I couldn't load saved tasks. Starting with an empty list.
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```

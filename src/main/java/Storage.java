@@ -100,19 +100,37 @@ public class Storage {
      * @param line the storage record to convert
      * @return the task represented by the record
      */
-    private Task deserialize(String line) {
+    private Task deserialize(String line) throws IOException {
         String[] fields = line.split("\\|", -1);
-        Task task = switch (fields[0]) {
-        case "D" -> new Deadline(decode(fields[2]), decode(fields[3]));
-        case "E" -> new Event(decode(fields[2]), decode(fields[3]), decode(fields[4]));
-        case "T" -> new ToDo(decode(fields[2]));
-        default -> throw new IllegalArgumentException("Unknown task type: " + fields[0]);
+        String taskType = fields.length > 0 ? fields[0] : "";
+        int expectedFieldCount = switch (taskType) {
+        case "D" -> 4;
+        case "E" -> 5;
+        case "T" -> 3;
+        default -> throw new IOException("Unknown task type: " + taskType);
         };
-
-        if ("1".equals(fields[1])) {
-            task.markAsDone();
+        if (fields.length != expectedFieldCount) {
+            throw new IOException("Malformed task record");
         }
-        return task;
+        if (!"0".equals(fields[1]) && !"1".equals(fields[1])) {
+            throw new IOException("Invalid task status");
+        }
+
+        try {
+            Task task = switch (taskType) {
+            case "D" -> new Deadline(decode(fields[2]), decode(fields[3]));
+            case "E" -> new Event(decode(fields[2]), decode(fields[3]), decode(fields[4]));
+            case "T" -> new ToDo(decode(fields[2]));
+            default -> throw new IOException("Unknown task type: " + taskType);
+            };
+
+            if ("1".equals(fields[1])) {
+                task.markAsDone();
+            }
+            return task;
+        } catch (IllegalArgumentException exception) {
+            throw new IOException("Malformed task record", exception);
+        }
     }
 
     /**
