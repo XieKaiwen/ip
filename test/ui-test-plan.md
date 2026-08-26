@@ -3,7 +3,7 @@
 These tests exercise Quackie's interactive command-line behavior. Each test case starts a fresh process and sends the commands in its `Inputs` block in order.
 
 - Compile command: `javac -d /tmp/ui-test-classes src/main/java/*.java`
-- Program command: `java -cp /tmp/ui-test-classes Quackie`
+- Program command: `rm -f data/quackie.txt && java -cp /tmp/ui-test-classes Quackie`
 
 ## Test Case 1: Add a ToDo and list it
 
@@ -621,6 +621,73 @@ What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
  OOPS!!! An event needs a description, /from time, and /to time.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+## Test Case 16: Save tasks before restart
+
+* Aim: Verify that adding tasks writes their descriptions, types, and statuses to the data file.
+Program command: ```rm -f data/quackie.txt && java -cp /tmp/ui-test-classes Quackie```
+* Inputs:
+  ```text
+  todo read book
+  deadline return book /by Sunday
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 17: Load tasks after restart
+
+* Aim: Verify that tasks saved by a previous session are loaded when Quackie starts.
+Program command: ```java -cp /tmp/ui-test-classes Quackie```
+* Inputs:
+  ```text
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+ 2.[D][ ] return book (by: Sunday)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

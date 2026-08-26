@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +39,29 @@ public class Storage {
     }
 
     /**
+     * Loads saved tasks into the supplied array.
+     *
+     * @param tasks the array into which loaded tasks are placed
+     * @return the number of tasks loaded
+     * @throws IOException if the data file cannot be read
+     */
+    public int load(Task[] tasks) throws IOException {
+        if (!Files.exists(DATA_FILE)) {
+            return 0;
+        }
+
+        int taskCount = 0;
+        try (BufferedReader reader = Files.newBufferedReader(DATA_FILE, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null && taskCount < tasks.length) {
+                tasks[taskCount] = deserialize(line);
+                taskCount++;
+            }
+        }
+        return taskCount;
+    }
+
+    /**
      * Converts one task into its storage record.
      *
      * @param task the task to convert
@@ -68,5 +92,36 @@ public class Storage {
      */
     private String encode(String value) {
         return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Converts one storage record back into a task.
+     *
+     * @param line the storage record to convert
+     * @return the task represented by the record
+     */
+    private Task deserialize(String line) {
+        String[] fields = line.split("\\|", -1);
+        Task task = switch (fields[0]) {
+        case "D" -> new Deadline(decode(fields[2]), decode(fields[3]));
+        case "E" -> new Event(decode(fields[2]), decode(fields[3]), decode(fields[4]));
+        case "T" -> new ToDo(decode(fields[2]));
+        default -> throw new IllegalArgumentException("Unknown task type: " + fields[0]);
+        };
+
+        if ("1".equals(fields[1])) {
+            task.markAsDone();
+        }
+        return task;
+    }
+
+    /**
+     * Decodes Base64 text from a storage record.
+     *
+     * @param value the encoded text
+     * @return the decoded text
+     */
+    private String decode(String value) {
+        return new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
     }
 }

@@ -25,8 +25,8 @@ public class Quackie {
 
         Scanner scanner = new Scanner(System.in);
         Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
         Storage storage = new Storage();
+        int taskCount = storage.load(tasks);
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
