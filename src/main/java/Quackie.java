@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -24,7 +25,8 @@ public class Quackie {
 
         Scanner scanner = new Scanner(System.in);
         Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        Storage storage = new Storage();
+        int taskCount = loadTasks(storage, tasks);
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
@@ -52,6 +54,7 @@ public class Quackie {
                             tasks[i] = tasks[i + 1];
                         }
                         tasks[--taskCount] = null;
+                        saveTasks(storage, tasks, taskCount);
                         System.out.println(" Noted. I've removed this task:");
                         System.out.println("   " + removedTask);
                         System.out.println(" Now you have " + taskCount + " tasks in the list.");
@@ -63,6 +66,7 @@ public class Quackie {
                     int markIndex = getTaskIndex(command, "mark", taskCount);
                     if (markIndex >= 0) {
                         tasks[markIndex].markAsDone();
+                        saveTasks(storage, tasks, taskCount);
                         System.out.println(" Nice! I've marked this task as done:");
                         System.out.println("   " + tasks[markIndex]);
                     } else {
@@ -73,6 +77,7 @@ public class Quackie {
                     int unmarkIndex = getTaskIndex(command, "unmark", taskCount);
                     if (unmarkIndex >= 0) {
                         tasks[unmarkIndex].markAsUndone();
+                        saveTasks(storage, tasks, taskCount);
                         System.out.println(" OK, I've marked this task as not done yet:");
                         System.out.println("   " + tasks[unmarkIndex]);
                     } else {
@@ -96,6 +101,7 @@ public class Quackie {
                             tasks[taskCount] = task;
                             taskCount++;
                         }
+                        saveTasks(storage, tasks, taskCount);
                         System.out.println(" Got it. I've added this task:");
                         System.out.println("   " + task);
                         System.out.println(" Now you have " + taskCount + " tasks in the list.");
@@ -116,6 +122,7 @@ public class Quackie {
                             tasks[taskCount] = task;
                             taskCount++;
                         }
+                        saveTasks(storage, tasks, taskCount);
                         System.out.println(" Got it. I've added this task:");
                         System.out.println("   " + task);
                         System.out.println(" Now you have " + taskCount + " tasks in the list.");
@@ -131,6 +138,7 @@ public class Quackie {
                             tasks[taskCount] = task;
                             taskCount++;
                         }
+                        saveTasks(storage, tasks, taskCount);
                         System.out.println(" Got it. I've added this task:");
                         System.out.println("   " + task);
                         System.out.println(" Now you have " + taskCount + " tasks in the list.");
@@ -143,6 +151,37 @@ public class Quackie {
             }
 
             System.out.println(separator);
+        }
+    }
+
+    /**
+     * Loads saved tasks while keeping the chatbot usable when the data is invalid.
+     *
+     * @param storage the storage service to read from
+     * @param tasks the array into which loaded tasks are placed
+     * @return the number of tasks loaded, or zero when loading fails
+     */
+    private static int loadTasks(Storage storage, Task[] tasks) {
+        try {
+            return storage.load(tasks);
+        } catch (IOException | RuntimeException exception) {
+            System.out.println(" OOPS!!! I couldn't load saved tasks. Starting with an empty list.");
+            return 0;
+        }
+    }
+
+    /**
+     * Saves tasks while keeping the chatbot usable when the data file is unavailable.
+     *
+     * @param storage the storage service to write to
+     * @param tasks the array containing the tasks to save
+     * @param taskCount the number of occupied entries in the array
+     */
+    private static void saveTasks(Storage storage, Task[] tasks, int taskCount) {
+        try {
+            storage.save(tasks, taskCount);
+        } catch (IOException exception) {
+            System.out.println(" OOPS!!! I couldn't save your tasks.");
         }
     }
 
