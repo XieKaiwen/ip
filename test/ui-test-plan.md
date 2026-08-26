@@ -40,7 +40,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 15: Reject invalid delete task numbers
+## Test Case 2: Reject invalid delete task numbers
 
 - Aim: Verify that missing, zero, out-of-range, and non-numeric delete arguments do not change the task list.
 - Inputs:
@@ -91,7 +91,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 14: Delete the only task
+## Test Case 3: Delete the only task
 
 - Aim: Verify that deleting the only task leaves an empty list and reports zero tasks.
 - Inputs:
@@ -131,7 +131,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 13: Compact the list after deleting first and last tasks
+## Test Case 4: Compact the list after deleting first and last tasks
 
 - Aim: Verify that deleting tasks at both ends shifts the remaining task into the correct list position.
 - Inputs:
@@ -190,7 +190,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 12: Delete a completed task from mixed task types
+## Test Case 5: Delete a completed task from mixed task types
 
 - Aim: Verify that delete removes the selected task while preserving the remaining task types and statuses.
 - Inputs:
@@ -249,7 +249,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 2: Mark a ToDo as done
+## Test Case 6: Mark a ToDo as done
 
 - Aim: Verify that `mark N` changes a ToDo's status to done and that `list` shows `[X]`.
 - Inputs:
@@ -296,7 +296,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 3: Reverse a ToDo's done status
+## Test Case 7: Reverse a ToDo's done status
 
 - Aim: Verify that `unmark N` changes a completed ToDo back to not done.
 - Inputs:
@@ -348,7 +348,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 4: Add a Deadline
+## Test Case 8: Add a Deadline
 
 - Aim: Verify that `deadline` stores the task description and its `/by` date or time.
 - Inputs:
@@ -383,7 +383,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 5: Add an Event
+## Test Case 9: Add an Event
 
 - Aim: Verify that `event` stores the description, start time, and end time.
 - Inputs:
@@ -418,7 +418,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 6: Reject an empty ToDo
+## Test Case 10: Reject an empty ToDo
 
 - Aim: Verify that an empty `todo` is rejected without adding a task.
 - Inputs:
@@ -457,7 +457,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 7: Reject an unknown command
+## Test Case 11: Reject an unknown command
 
 - Aim: Verify that an unrecognized command is rejected without changing the task list.
 - Inputs:
@@ -496,7 +496,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 8: Reject a blank command
+## Test Case 12: Reject a blank command
 
 - Aim: Verify that blank input is rejected without changing the task list.
 - Inputs:
@@ -524,7 +524,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 9: Reject invalid mark and unmark task numbers
+## Test Case 13: Reject invalid mark and unmark task numbers
 
 - Aim: Verify that missing, out-of-range, and non-numeric task numbers are rejected without changing task status.
 - Inputs:
@@ -571,7 +571,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 10: Reject a malformed deadline
+## Test Case 14: Reject a malformed deadline
 
 - Aim: Verify that a deadline without a description or `/by` value is rejected without adding a task.
 - Inputs:
@@ -599,7 +599,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 11: Reject a malformed event
+## Test Case 15: Reject a malformed event
 
 - Aim: Verify that an event without a description, `/from`, or `/to` value is rejected without adding a task.
 - Inputs:
