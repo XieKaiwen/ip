@@ -117,15 +117,20 @@ public class Quackie {
                     if (deadlineDescription.isBlank() || by.isBlank()) {
                         System.out.println(" OOPS!!! A deadline needs a description and a /by date or time.");
                     } else {
-                        Task task = new Deadline(deadlineDescription.trim(), by.trim());
-                        if (taskCount < MAX_TASKS) {
-                            tasks[taskCount] = task;
-                            taskCount++;
+                        try {
+                            Task task = new Deadline(deadlineDescription.trim(), by.trim());
+                            if (taskCount < MAX_TASKS) {
+                                tasks[taskCount] = task;
+                                taskCount++;
+                            }
+                            saveTasks(storage, tasks, taskCount);
+                            System.out.println(" Got it. I've added this task:");
+                            System.out.println("   " + task);
+                            System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                        } catch (IllegalArgumentException exception) {
+                            System.out.println(" OOPS!!! Please enter a valid deadline date (yyyy-MM-dd)"
+                                    + " or date and time (d/M/yyyy HHmm).");
                         }
-                        saveTasks(storage, tasks, taskCount);
-                        System.out.println(" Got it. I've added this task:");
-                        System.out.println("   " + task);
-                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
                     }
                     break;
                 case TODO:
