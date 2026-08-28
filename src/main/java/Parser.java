@@ -3,6 +3,26 @@
  */
 public class Parser {
     /**
+     * Creates an executable command from raw user input.
+     *
+     * @param command the complete command entered by the user
+     * @param tasks the current task list, used to validate task indexes
+     * @return the executable command represented by the input
+     * @throws IllegalArgumentException if a task-creation command is malformed
+     */
+    public Command parse(String command, TaskList tasks) {
+        return switch (parseCommandType(command)) {
+        case BYE -> new ExitCommand();
+        case LIST -> new ListCommand();
+        case DELETE -> new DeleteCommand(parseTaskIndex(command, "delete", tasks));
+        case MARK -> new MarkCommand(parseTaskIndex(command, "mark", tasks));
+        case UNMARK -> new UnmarkCommand(parseTaskIndex(command, "unmark", tasks));
+        case EVENT, DEADLINE, TODO -> new AddCommand(parseTask(command));
+        case UNKNOWN -> new UnknownCommand();
+        };
+    }
+
+    /**
      * Identifies the command represented by raw user input.
      *
      * @param input the complete command entered by the user

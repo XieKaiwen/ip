@@ -22,58 +22,14 @@ public class Quackie {
             if (command.isBlank()) {
                 ui.showError("Please enter a command.");
             } else {
-                switch (parser.parseCommandType(command)) {
-                case BYE:
-                    ui.showBye();
-                    return;
-                case LIST:
-                    ui.showTasks(tasks);
-                    break;
-                case DELETE:
-                    int deleteIndex = parser.parseTaskIndex(command, "delete", tasks);
-                    if (deleteIndex >= 0) {
-                        Task removedTask = tasks.delete(deleteIndex);
-                        saveTasks(storage, tasks, ui);
-                        ui.showTaskDeleted(removedTask, tasks.size());
-                    } else {
-                        ui.showError("Please provide a valid task number.");
+                try {
+                    Command parsedCommand = parser.parse(command, tasks);
+                    parsedCommand.execute(tasks, ui, storage);
+                    if (parsedCommand.isExit()) {
+                        return;
                     }
-                    break;
-                case MARK:
-                    int markIndex = parser.parseTaskIndex(command, "mark", tasks);
-                    if (markIndex >= 0) {
-                        tasks.markAsDone(markIndex);
-                        saveTasks(storage, tasks, ui);
-                        ui.showTaskMarked(tasks.get(markIndex));
-                    } else {
-                        ui.showError("Please provide a valid task number.");
-                    }
-                    break;
-                case UNMARK:
-                    int unmarkIndex = parser.parseTaskIndex(command, "unmark", tasks);
-                    if (unmarkIndex >= 0) {
-                        tasks.markAsUndone(unmarkIndex);
-                        saveTasks(storage, tasks, ui);
-                        ui.showTaskUnmarked(tasks.get(unmarkIndex));
-                    } else {
-                        ui.showError("Please provide a valid task number.");
-                    }
-                    break;
-                case EVENT:
-                case DEADLINE:
-                case TODO:
-                    try {
-                        Task task = parser.parseTask(command);
-                        tasks.add(task);
-                        saveTasks(storage, tasks, ui);
-                        ui.showTaskAdded(task, tasks.size());
-                    } catch (IllegalArgumentException exception) {
-                        ui.showError(exception.getMessage());
-                    }
-                    break;
-                case UNKNOWN:
-                    ui.showError("I don't recognize that command.");
-                    break;
+                } catch (IllegalArgumentException exception) {
+                    ui.showError(exception.getMessage());
                 }
             }
 
@@ -95,20 +51,6 @@ public class Quackie {
         } catch (IOException | RuntimeException exception) {
             ui.showError("I couldn't load saved tasks. Starting with an empty list.");
             return new TaskList();
-        }
-    }
-
-    /**
-     * Saves tasks while keeping the chatbot usable when the data file is unavailable.
-     *
-     * @param storage the storage service to write to
-     * @param tasks the task list to save
-     */
-    private static void saveTasks(Storage storage, TaskList tasks, Ui ui) {
-        try {
-            storage.save(tasks);
-        } catch (IOException exception) {
-            ui.showError("I couldn't save your tasks.");
         }
     }
 
