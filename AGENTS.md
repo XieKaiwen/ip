@@ -34,6 +34,27 @@ Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
 
+Follow these commit-message conventions:
+
+* Write the subject in the imperative mood.
+* Capitalise the first word and omit a trailing period.
+* Keep the subject within 50 characters where practical and never exceed 72 characters.
+* For nontrivial changes, add a body after a blank line that explains what changed and why.
+* Wrap commit-message body lines at approximately 72 characters.
+
+## Coding standard
+
+Follow the project Java and Markdown coding standards:
+
+* Use lower-case package names, PascalCase type names, and camelCase method and variable names.
+* Name boolean values so they read as propositions, and use plural names for collections.
+* Indent Java code with four spaces and use K&R braces.
+* Keep Java lines within 120 characters, preferably below 110 characters.
+* Use explicit imports and group them consistently as static, Java, third-party, and project imports.
+* Put every Java class in a suitable package and keep related classes together.
+* Use GitHub-flavoured Markdown with blank lines around headings, lists, and code blocks.
+* Do not hard-wrap ordinary Markdown prose unnecessarily.
+
 ## UI test workflow
 
 After every code update, review `test/ui-test-plan.md` and update it when the

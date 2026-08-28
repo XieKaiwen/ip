@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Test;
+
 import quackie.CommandType;
 import quackie.command.AddCommand;
 import quackie.command.Command;
@@ -17,7 +19,6 @@ import quackie.task.Deadline;
 import quackie.task.Event;
 import quackie.task.TaskList;
 import quackie.task.ToDo;
-import org.junit.jupiter.api.Test;
 
 /** Tests conversion from raw input into command objects and task objects. */
 class ParserTest {
