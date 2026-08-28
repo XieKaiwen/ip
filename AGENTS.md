@@ -41,3 +41,9 @@ observable command-line behavior or expected output changes. Then invoke the
 project-specific `test-ui` skill to run the plan before considering the update
 complete. The skill must stop at the first failed case and report the actual and
 expected console output.
+
+## JUnit workflow
+
+Maintain JUnit 5 tests for at least the highest-value non-trivial methods (the
+top half is a useful minimum) across the core classes. Update the tests whenever
+a code change alters the corresponding behaviour.
