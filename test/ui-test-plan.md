@@ -1013,3 +1013,152 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
+
+## Test Case 28: Find multiple matching tasks
+
+* Aim: Verify that `find` returns every task whose description contains the keyword while preserving task order.
+* Inputs:
+  ```text
+  todo read book
+  deadline return book /by Sunday
+  event project meeting /from Mon 2pm /to 4pm
+  find book
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[T][ ] read book
+ 2.[D][ ] return book (by: Sunday)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 29: Find tasks without case sensitivity
+
+* Aim: Verify that `find` matches task descriptions regardless of letter case.
+* Inputs:
+  ```text
+  todo Read Book
+  find read
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] Read Book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[T][ ] Read Book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 30: Report no matching tasks
+
+* Aim: Verify that `find` displays an empty matching-task list when no descriptions contain the keyword.
+* Inputs:
+  ```text
+  todo read book
+  find groceries
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 31: Reject an empty find keyword
+
+* Aim: Verify that `find` without a keyword is rejected without changing the task list.
+* Inputs:
+  ```text
+  find
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a keyword to find.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```

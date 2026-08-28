@@ -1,5 +1,7 @@
 package quackie.task;
 
+import java.util.Locale;
+
 /**
  * Stores and manages the tasks in the current Quackie session.
  */
@@ -85,6 +87,24 @@ public class TaskList {
      */
     public void markAsUndone(int index) {
         get(index).markAsUndone();
+    }
+
+    /**
+     * Returns tasks whose descriptions contain the supplied keyword, ignoring case.
+     *
+     * @param keyword the text to search for in task descriptions
+     * @return a new task list containing the matching tasks in their original order
+     */
+    public TaskList find(String keyword) {
+        String normalisedKeyword = keyword.toLowerCase(Locale.ROOT);
+        TaskList matches = new TaskList();
+        for (int i = 0; i < taskCount; i++) {
+            String normalisedDescription = tasks[i].getDescription().toLowerCase(Locale.ROOT);
+            if (normalisedDescription.contains(normalisedKeyword)) {
+                matches.add(tasks[i]);
+            }
+        }
+        return matches;
     }
 
     /**

@@ -41,4 +41,20 @@ class TaskListTest {
         assertThrows(IndexOutOfBoundsException.class, () -> tasks.get(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> tasks.delete(100));
     }
+
+    /** Verifies that task descriptions are searched case-insensitively. */
+    @Test
+    void findsMatchingDescriptionsIgnoringCase() {
+        TaskList tasks = new TaskList();
+        tasks.add(new ToDo("Read Book"));
+        tasks.add(new ToDo("return book"));
+        tasks.add(new ToDo("buy bread"));
+
+        TaskList matches = tasks.find("BOOK");
+
+        assertEquals(2, matches.size());
+        assertEquals("Read Book", matches.get(0).getDescription());
+        assertEquals("return book", matches.get(1).getDescription());
+        assertEquals(0, tasks.find("groceries").size());
+    }
 }

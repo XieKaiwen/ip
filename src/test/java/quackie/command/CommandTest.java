@@ -10,12 +10,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
 import quackie.storage.Storage;
 import quackie.task.TaskList;
 import quackie.task.ToDo;
 import quackie.ui.Ui;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 /** Tests command execution and its delegation to application services. */
 class CommandTest {
@@ -36,6 +37,7 @@ class CommandTest {
         new UnmarkCommand(0).execute(tasks, ui, storage);
         assertFalse(tasks.get(0).isDone());
         new ListCommand().execute(tasks, ui, storage);
+        new FindCommand("book").execute(tasks, ui, storage);
         new DeleteCommand(0).execute(tasks, ui, storage);
         assertEquals(0, tasks.size());
     }

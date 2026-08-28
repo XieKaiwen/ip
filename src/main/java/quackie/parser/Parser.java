@@ -5,6 +5,7 @@ import quackie.command.AddCommand;
 import quackie.command.Command;
 import quackie.command.DeleteCommand;
 import quackie.command.ExitCommand;
+import quackie.command.FindCommand;
 import quackie.command.ListCommand;
 import quackie.command.MarkCommand;
 import quackie.command.UnknownCommand;
@@ -31,6 +32,7 @@ public class Parser {
         return switch (parseCommandType(command)) {
         case BYE -> new ExitCommand();
         case LIST -> new ListCommand();
+        case FIND -> new FindCommand(parseFindKeyword(command));
         case DELETE -> new DeleteCommand(parseTaskIndex(command, "delete", tasks));
         case MARK -> new MarkCommand(parseTaskIndex(command, "mark", tasks));
         case UNMARK -> new UnmarkCommand(parseTaskIndex(command, "unmark", tasks));
@@ -80,6 +82,21 @@ public class Parser {
         } catch (NumberFormatException exception) {
             return -1;
         }
+    }
+
+    /**
+     * Extracts and validates the keyword from a find command.
+     *
+     * @param command the complete find command
+     * @return the non-empty search keyword
+     * @throws IllegalArgumentException if the keyword is missing
+     */
+    private String parseFindKeyword(String command) {
+        String keyword = command.substring("find".length()).trim();
+        if (keyword.isBlank()) {
+            throw new IllegalArgumentException("Please provide a keyword to find.");
+        }
+        return keyword;
     }
 
     /**

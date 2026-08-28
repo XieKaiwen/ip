@@ -9,9 +9,10 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import org.junit.jupiter.api.Test;
+
 import quackie.task.TaskList;
 import quackie.task.ToDo;
-import org.junit.jupiter.api.Test;
 
 /** Tests the console UI using in-memory input and output streams. */
 class UiTest {
@@ -28,6 +29,7 @@ class UiTest {
         assertNull(ui.readCommand());
         ui.showWelcome();
         ui.showTasks(tasks);
+        ui.showMatchingTasks(tasks);
         ui.showTaskAdded(task, 1);
         ui.showTaskDeleted(task, 0);
         ui.showTaskMarked(task);
@@ -38,6 +40,7 @@ class UiTest {
         String output = captured.toString(StandardCharsets.UTF_8);
         assertTrue(output.contains("Hello! I'm Quackie."));
         assertTrue(output.contains("1.[T][ ] read book"));
+        assertTrue(output.contains("Here are the matching tasks in your list:"));
         assertTrue(output.contains("OOPS!!! problem"));
         assertTrue(output.contains("Bye. Hope to see you again soon!"));
     }

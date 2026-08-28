@@ -4,11 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Test;
+
 import quackie.CommandType;
 import quackie.command.AddCommand;
 import quackie.command.Command;
 import quackie.command.DeleteCommand;
 import quackie.command.ExitCommand;
+import quackie.command.FindCommand;
 import quackie.command.ListCommand;
 import quackie.command.MarkCommand;
 import quackie.command.UnknownCommand;
@@ -17,7 +20,6 @@ import quackie.task.Deadline;
 import quackie.task.Event;
 import quackie.task.TaskList;
 import quackie.task.ToDo;
-import org.junit.jupiter.api.Test;
 
 /** Tests conversion from raw input into command objects and task objects. */
 class ParserTest {
@@ -30,6 +32,7 @@ class ParserTest {
 
         assertInstanceOf(ExitCommand.class, parser.parse("bye", tasks));
         assertInstanceOf(ListCommand.class, parser.parse("list", tasks));
+        assertInstanceOf(FindCommand.class, parser.parse("find book", tasks));
         assertInstanceOf(DeleteCommand.class, parser.parse("delete 1", tasks));
         assertInstanceOf(MarkCommand.class, parser.parse("mark 1", tasks));
         assertInstanceOf(UnmarkCommand.class, parser.parse("unmark 1", tasks));
@@ -56,6 +59,8 @@ class ParserTest {
     void rejectsMalformedTasks() {
         assertThrows(IllegalArgumentException.class, () -> parser.parseTask("todo"));
         assertThrows(IllegalArgumentException.class, () -> parser.parseTask("event meeting"));
-        assertThrows(IllegalArgumentException.class, () -> parser.parseTask("deadline report /by 2019-02-30"));
+        assertThrows(IllegalArgumentException.class,
+                () -> parser.parseTask("deadline report /by 2019-02-30"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parse("find", new TaskList()));
     }
 }

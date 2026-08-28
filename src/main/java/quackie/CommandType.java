@@ -8,6 +8,8 @@ public enum CommandType {
     BYE,
     /** Lists all stored tasks. */
     LIST,
+    /** Finds tasks whose descriptions contain a keyword. */
+    FIND,
     /** Deletes one stored task. */
     DELETE,
     /** Marks one stored task as done. */
@@ -34,6 +36,8 @@ public enum CommandType {
             return BYE;
         } else if (input.equals("list")) {
             return LIST;
+        } else if (input.equals("find") || input.startsWith("find ")) {
+            return FIND;
         } else if (input.equals("delete") || input.startsWith("delete ")) {
             return DELETE;
         } else if (input.equals("mark") || input.startsWith("mark ")) {
