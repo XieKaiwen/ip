@@ -37,6 +37,7 @@ class CommandTest {
         new UnmarkCommand(0).execute(tasks, ui, storage);
         assertFalse(tasks.get(0).isDone());
         new ListCommand().execute(tasks, ui, storage);
+        new FindCommand("book").execute(tasks, ui, storage);
         new DeleteCommand(0).execute(tasks, ui, storage);
         assertEquals(0, tasks.size());
     }
