@@ -19,6 +19,10 @@ import quackie.task.ToDo;
  * Interprets raw commands and creates the corresponding task objects.
  */
 public class Parser {
+    /** Creates a parser for raw Quackie commands. */
+    public Parser() {
+    }
+
     /**
      * Creates an executable command from raw user input.
      *

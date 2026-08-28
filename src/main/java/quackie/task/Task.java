@@ -4,7 +4,10 @@ package quackie.task;
  * Represents a task entered during the current Quackie session.
  */
 public class Task {
+    /** The user-facing text describing this task. */
     protected String description;
+
+    /** Whether this task has been completed. */
     protected boolean isDone;
 
     /**
