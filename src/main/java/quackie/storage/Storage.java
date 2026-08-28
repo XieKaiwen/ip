@@ -22,8 +22,23 @@ import quackie.task.ToDo;
  * descriptions and dates safe when they contain the separator.
  */
 public class Storage {
-    private static final Path DATA_FILE = Path.of("data", "quackie.txt");
+    private static final Path DEFAULT_DATA_FILE = Path.of("data", "quackie.txt");
     private static final String FIELD_SEPARATOR = "|";
+    private final Path dataFile;
+
+    /** Creates a storage service using Quackie's default data file. */
+    public Storage() {
+        this(DEFAULT_DATA_FILE);
+    }
+
+    /**
+     * Creates a storage service using a caller-supplied file, useful for isolated environments.
+     *
+     * @param dataFile the file in which tasks should be stored
+     */
+    public Storage(Path dataFile) {
+        this.dataFile = dataFile;
+    }
 
     /**
      * Saves the current tasks to the data file.
@@ -32,12 +47,12 @@ public class Storage {
      * @throws IOException if the data directory or file cannot be written
      */
     public void save(TaskList tasks) throws IOException {
-        Path parentDirectory = DATA_FILE.getParent();
+        Path parentDirectory = dataFile.getParent();
         if (parentDirectory != null) {
             Files.createDirectories(parentDirectory);
         }
 
-        try (BufferedWriter writer = Files.newBufferedWriter(DATA_FILE, StandardCharsets.UTF_8)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(dataFile, StandardCharsets.UTF_8)) {
             for (int i = 0; i < tasks.size(); i++) {
                 writer.write(serialize(tasks.get(i)));
                 writer.newLine();
@@ -52,11 +67,11 @@ public class Storage {
      * @throws IOException if the data file cannot be read
      */
     public void load(TaskList tasks) throws IOException {
-        if (!Files.exists(DATA_FILE)) {
+        if (!Files.exists(dataFile)) {
             return;
         }
 
-        try (BufferedReader reader = Files.newBufferedReader(DATA_FILE, StandardCharsets.UTF_8)) {
+        try (BufferedReader reader = Files.newBufferedReader(dataFile, StandardCharsets.UTF_8)) {
             String line;
             while ((line = reader.readLine()) != null) {
                 tasks.add(deserialize(line));

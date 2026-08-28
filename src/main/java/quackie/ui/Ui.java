@@ -1,5 +1,6 @@
 package quackie.ui;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 import quackie.task.Task;
@@ -18,18 +19,30 @@ public class Ui {
             + "    |_|                                  ";
 
     private final Scanner scanner;
+    private final PrintStream output;
 
     /** Creates a console UI that reads commands from standard input. */
     public Ui() {
-        scanner = new Scanner(System.in);
+        this(new Scanner(System.in), System.out);
+    }
+
+    /**
+     * Creates a UI with caller-supplied streams, which allows output to be captured in tests.
+     *
+     * @param scanner the source of user commands
+     * @param output the destination for chatbot messages
+     */
+    public Ui(Scanner scanner, PrintStream output) {
+        this.scanner = scanner;
+        this.output = output;
     }
 
     /** Displays the welcome banner and prompt. */
     public void showWelcome() {
         showLine();
-        System.out.println(BANNER);
-        System.out.println("Hello! I'm Quackie.");
-        System.out.println("What can I do for you?");
+        output.println(BANNER);
+        output.println("Hello! I'm Quackie.");
+        output.println("What can I do for you?");
         showLine();
     }
 
@@ -44,12 +57,12 @@ public class Ui {
 
     /** Displays the standard horizontal separator. */
     public void showLine() {
-        System.out.println(SEPARATOR);
+        output.println(SEPARATOR);
     }
 
     /** Displays the farewell message and trailing separator. */
     public void showBye() {
-        System.out.println("Bye. Hope to see you again soon!");
+        output.println("Bye. Hope to see you again soon!");
         showLine();
     }
 
@@ -59,7 +72,7 @@ public class Ui {
      * @param message the explanation to show to the user
      */
     public void showError(String message) {
-        System.out.println(" OOPS!!! " + message);
+        output.println(" OOPS!!! " + message);
     }
 
     /**
@@ -68,9 +81,9 @@ public class Ui {
      * @param tasks the tasks to display
      */
     public void showTasks(TaskList tasks) {
-        System.out.println(" Here are the tasks in your list:");
+        output.println(" Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(" " + (i + 1) + "." + tasks.get(i));
+            output.println(" " + (i + 1) + "." + tasks.get(i));
         }
     }
 
@@ -81,9 +94,9 @@ public class Ui {
      * @param taskCount the number of tasks after the addition
      */
     public void showTaskAdded(Task task, int taskCount) {
-        System.out.println(" Got it. I've added this task:");
-        System.out.println("   " + task);
-        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+        output.println(" Got it. I've added this task:");
+        output.println("   " + task);
+        output.println(" Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -93,9 +106,9 @@ public class Ui {
      * @param taskCount the number of tasks after the deletion
      */
     public void showTaskDeleted(Task task, int taskCount) {
-        System.out.println(" Noted. I've removed this task:");
-        System.out.println("   " + task);
-        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+        output.println(" Noted. I've removed this task:");
+        output.println("   " + task);
+        output.println(" Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -104,8 +117,8 @@ public class Ui {
      * @param task the task that was marked as done
      */
     public void showTaskMarked(Task task) {
-        System.out.println(" Nice! I've marked this task as done:");
-        System.out.println("   " + task);
+        output.println(" Nice! I've marked this task as done:");
+        output.println("   " + task);
     }
 
     /**
@@ -114,7 +127,7 @@ public class Ui {
      * @param task the task that was marked as not done
      */
     public void showTaskUnmarked(Task task) {
-        System.out.println(" OK, I've marked this task as not done yet:");
-        System.out.println("   " + task);
+        output.println(" OK, I've marked this task as not done yet:");
+        output.println("   " + task);
     }
 }
