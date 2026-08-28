@@ -10,12 +10,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
 import quackie.storage.Storage;
 import quackie.task.TaskList;
 import quackie.task.ToDo;
 import quackie.ui.Ui;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 /** Tests command execution and its delegation to application services. */
 class CommandTest {

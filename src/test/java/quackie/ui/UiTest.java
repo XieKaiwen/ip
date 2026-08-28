@@ -9,9 +9,10 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import org.junit.jupiter.api.Test;
+
 import quackie.task.TaskList;
 import quackie.task.ToDo;
-import org.junit.jupiter.api.Test;
 
 /** Tests the console UI using in-memory input and output streams. */
 class UiTest {

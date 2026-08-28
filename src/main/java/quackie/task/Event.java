@@ -4,8 +4,8 @@ package quackie.task;
  * A task that starts and ends at specified dates or times.
  */
 public class Event extends Task {
-    private String from;
-    private String to;
+    private final String from;
+    private final String to;
 
     /**
      * Creates a not-done event task.

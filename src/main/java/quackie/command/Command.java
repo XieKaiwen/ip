@@ -1,5 +1,7 @@
 package quackie.command;
 
+import java.io.IOException;
+
 import quackie.storage.Storage;
 import quackie.task.TaskList;
 import quackie.ui.Ui;
@@ -36,7 +38,7 @@ public abstract class Command {
     protected void saveTasks(TaskList tasks, Ui ui, Storage storage) {
         try {
             storage.save(tasks);
-        } catch (java.io.IOException exception) {
+        } catch (IOException exception) {
             ui.showError("I couldn't save your tasks.");
         }
     }
