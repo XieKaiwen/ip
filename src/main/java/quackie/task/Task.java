@@ -1,3 +1,5 @@
+package quackie.task;
+
 /**
  * Represents a task entered during the current Quackie session.
  */

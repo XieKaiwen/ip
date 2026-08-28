@@ -1,4 +1,9 @@
+package quackie.ui;
+
 import java.util.Scanner;
+
+import quackie.task.Task;
+import quackie.task.TaskList;
 
 /**
  * Handles Quackie's console input and output.

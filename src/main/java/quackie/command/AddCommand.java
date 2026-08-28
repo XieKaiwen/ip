@@ -1,3 +1,10 @@
+package quackie.command;
+
+import quackie.storage.Storage;
+import quackie.task.Task;
+import quackie.task.TaskList;
+import quackie.ui.Ui;
+
 /**
  * Adds a parsed task to the task list.
  */

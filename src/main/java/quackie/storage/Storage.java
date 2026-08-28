@@ -1,3 +1,5 @@
+package quackie.storage;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -5,6 +7,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
+
+import quackie.task.Deadline;
+import quackie.task.Event;
+import quackie.task.Task;
+import quackie.task.TaskList;
+import quackie.task.ToDo;
 
 /**
  * Persists Quackie's tasks in a local text file.

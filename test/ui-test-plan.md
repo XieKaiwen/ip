@@ -2,8 +2,8 @@
 
 These tests exercise Quackie's interactive command-line behavior. Each test case starts a fresh process and sends the commands in its `Inputs` block in order.
 
-- Compile command: `javac -d /tmp/ui-test-classes src/main/java/*.java`
-- Program command: `rm -f data/quackie.txt && java -cp /tmp/ui-test-classes Quackie`
+- Compile command: `javac -d /tmp/ui-test-classes $(find src/main/java -name '*.java' -print)`
+- Program command: `rm -f data/quackie.txt && java -cp /tmp/ui-test-classes quackie.Quackie`
 
 ## Test Case 1: Add a ToDo and list it
 
@@ -629,7 +629,7 @@ ____________________________________________________________
 ## Test Case 16: Save tasks before restart
 
 * Aim: Verify that adding tasks writes their descriptions, types, and statuses to the data file.
-Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes Quackie```
+Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes quackie.Quackie```
 * Inputs:
   ```text
   todo read book
@@ -671,7 +671,7 @@ ____________________________________________________________
 ## Test Case 17: Load tasks after restart
 
 * Aim: Verify that tasks saved by a previous session are loaded when Quackie starts.
-Program command: ```java -cp /tmp/ui-test-classes Quackie```
+Program command: ```java -cp /tmp/ui-test-classes quackie.Quackie```
 * Inputs:
   ```text
   list
@@ -702,7 +702,7 @@ ____________________________________________________________
 ## Test Case 18: Start without a data file
 
 * Aim: Verify that Quackie starts with an empty list when no data file exists.
-Program command: ```rm -f data/quackie.txt && java -cp /tmp/ui-test-classes Quackie```
+Program command: ```rm -f data/quackie.txt && java -cp /tmp/ui-test-classes quackie.Quackie```
 * Inputs:
   ```text
   list
@@ -731,7 +731,7 @@ ____________________________________________________________
 ## Test Case 19: Handle a malformed data file
 
 * Aim: Verify that malformed saved data is reported and does not prevent a fresh session.
-Program command: ```rm -f data/quackie.txt && mkdir -p data && printf 'corrupt-record\n' > data/quackie.txt && java -cp /tmp/ui-test-classes Quackie```
+Program command: ```rm -f data/quackie.txt && mkdir -p data && printf 'corrupt-record\n' > data/quackie.txt && java -cp /tmp/ui-test-classes quackie.Quackie```
 * Inputs:
   ```text
   list
@@ -863,7 +863,7 @@ ____________________________________________________________
 ## Test Case 23: Save a structured deadline before restart
 
 * Aim: Verify that a structured deadline is written to local storage without losing its original date value.
-Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes Quackie```
+Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes quackie.Quackie```
 * Inputs:
   ```text
   deadline submit report /by 2019-10-15
@@ -894,7 +894,7 @@ ____________________________________________________________
 ## Test Case 24: Load a structured deadline after restart
 
 * Aim: Verify that a saved structured deadline is reconstructed with its human-readable date display.
-Program command: `java -cp /tmp/ui-test-classes Quackie`
+Program command: `java -cp /tmp/ui-test-classes quackie.Quackie`
 * Inputs:
   ```text
   list
@@ -924,7 +924,7 @@ ____________________________________________________________
 ## Test Case 25: Save a structured date-time before restart
 
 * Aim: Verify that a structured deadline date and time are written to local storage without losing the original value.
-Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes Quackie```
+Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes quackie.Quackie```
 * Inputs:
   ```text
   deadline attend meeting /by 2/12/2019 1800
@@ -955,7 +955,7 @@ ____________________________________________________________
 ## Test Case 26: Load a structured date-time after restart
 
 * Aim: Verify that a saved structured deadline date and time are reconstructed with their human-readable display.
-Program command: `java -cp /tmp/ui-test-classes Quackie`
+Program command: `java -cp /tmp/ui-test-classes quackie.Quackie`
 * Inputs:
   ```text
   list
