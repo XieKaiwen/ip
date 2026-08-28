@@ -1,4 +1,12 @@
+package quackie;
+
 import java.io.IOException;
+
+import quackie.command.Command;
+import quackie.parser.Parser;
+import quackie.storage.Storage;
+import quackie.task.TaskList;
+import quackie.ui.Ui;
 
 /**
  * Entry point for the Quackie chatbot.

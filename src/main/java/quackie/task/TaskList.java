@@ -1,3 +1,5 @@
+package quackie.task;
+
 /**
  * Stores and manages the tasks in the current Quackie session.
  */

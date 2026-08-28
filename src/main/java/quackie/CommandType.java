@@ -1,3 +1,5 @@
+package quackie;
+
 /**
  * The command keywords understood by Quackie.
  */

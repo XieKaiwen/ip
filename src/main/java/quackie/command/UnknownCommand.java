@@ -1,3 +1,9 @@
+package quackie.command;
+
+import quackie.storage.Storage;
+import quackie.task.TaskList;
+import quackie.ui.Ui;
+
 /**
  * Reports a command that Quackie does not recognize.
  */

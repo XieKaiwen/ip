@@ -1,3 +1,20 @@
+package quackie.parser;
+
+import quackie.CommandType;
+import quackie.command.AddCommand;
+import quackie.command.Command;
+import quackie.command.DeleteCommand;
+import quackie.command.ExitCommand;
+import quackie.command.ListCommand;
+import quackie.command.MarkCommand;
+import quackie.command.UnknownCommand;
+import quackie.command.UnmarkCommand;
+import quackie.task.Deadline;
+import quackie.task.Event;
+import quackie.task.Task;
+import quackie.task.TaskList;
+import quackie.task.ToDo;
+
 /**
  * Interprets raw commands and creates the corresponding task objects.
  */

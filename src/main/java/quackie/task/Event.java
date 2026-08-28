@@ -1,3 +1,5 @@
+package quackie.task;
+
 /**
  * A task that starts and ends at specified dates or times.
  */
