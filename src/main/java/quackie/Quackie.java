@@ -12,6 +12,15 @@ import quackie.ui.Ui;
  * Entry point for the Quackie chatbot.
  */
 public class Quackie {
+    /** Creates the chatbot entry-point object. */
+    public Quackie() {
+    }
+
+    /**
+     * Starts an interactive Quackie session.
+     *
+     * @param args command-line arguments, which are currently unused
+     */
     public static void main(String[] args) {
         Ui ui = new Ui();
         ui.showWelcome();
@@ -49,6 +58,7 @@ public class Quackie {
      * Loads saved tasks while keeping the chatbot usable when the data is invalid.
      *
      * @param storage the storage service to read from
+     * @param ui the user interface used to report load failures
      * @return the loaded task list, or an empty list when loading fails
      */
     private static TaskList loadTasks(Storage storage, Ui ui) {

@@ -8,6 +8,10 @@ import quackie.ui.Ui;
  * Represents one parsed Quackie command.
  */
 public abstract class Command {
+    /** Creates a command instance. */
+    protected Command() {
+    }
+
     /**
      * Executes this command using the supplied application services.
      *
