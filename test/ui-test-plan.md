@@ -757,3 +757,259 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
+
+## Test Case 20: Format an ISO deadline date
+
+- Aim: Verify that an ISO deadline date is stored as a date and displayed in a human-readable format.
+- Inputs:
+  ```text
+  deadline return book /by 2019-10-15
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Oct 15 2019)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] return book (by: Oct 15 2019)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 21: Format a deadline date and time
+
+- Aim: Verify that a day-month-year deadline with a 24-hour time is stored as a date and time and displayed clearly.
+- Inputs:
+  ```text
+  deadline return book /by 2/12/2019 1800
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Dec 02 2019, 6:00 PM)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] return book (by: Dec 02 2019, 6:00 PM)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 22: Reject an invalid structured deadline
+
+- Aim: Verify that an invalid date is rejected without adding a deadline task.
+- Inputs:
+  ```text
+  deadline return book /by 2019-02-30
+  list
+  bye
+  ```
+- Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please enter a valid deadline date (yyyy-MM-dd) or date and time (d/M/yyyy HHmm).
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 23: Save a structured deadline before restart
+
+* Aim: Verify that a structured deadline is written to local storage without losing its original date value.
+Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes Quackie```
+* Inputs:
+  ```text
+  deadline submit report /by 2019-10-15
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] submit report (by: Oct 15 2019)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 24: Load a structured deadline after restart
+
+* Aim: Verify that a saved structured deadline is reconstructed with its human-readable date display.
+Program command: `java -cp /tmp/ui-test-classes Quackie`
+* Inputs:
+  ```text
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] submit report (by: Oct 15 2019)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 25: Save a structured date-time before restart
+
+* Aim: Verify that a structured deadline date and time are written to local storage without losing the original value.
+Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes Quackie```
+* Inputs:
+  ```text
+  deadline attend meeting /by 2/12/2019 1800
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] attend meeting (by: Dec 02 2019, 6:00 PM)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 26: Load a structured date-time after restart
+
+* Aim: Verify that a saved structured deadline date and time are reconstructed with their human-readable display.
+Program command: `java -cp /tmp/ui-test-classes Quackie`
+* Inputs:
+  ```text
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] attend meeting (by: Dec 02 2019, 6:00 PM)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 27: Reject an invalid structured time
+
+* Aim: Verify that an invalid 24-hour time is rejected without adding a deadline task.
+* Inputs:
+  ```text
+  deadline return book /by 2/12/2019 2500
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please enter a valid deadline date (yyyy-MM-dd) or date and time (d/M/yyyy HHmm).
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
