@@ -20,45 +20,40 @@ public class Storage {
     /**
      * Saves the current tasks to the data file.
      *
-     * @param tasks the array containing the tasks to save
-     * @param taskCount the number of occupied entries in the array
+     * @param tasks the task list to save
      * @throws IOException if the data directory or file cannot be written
      */
-    public void save(Task[] tasks, int taskCount) throws IOException {
+    public void save(TaskList tasks) throws IOException {
         Path parentDirectory = DATA_FILE.getParent();
         if (parentDirectory != null) {
             Files.createDirectories(parentDirectory);
         }
 
         try (BufferedWriter writer = Files.newBufferedWriter(DATA_FILE, StandardCharsets.UTF_8)) {
-            for (int i = 0; i < taskCount; i++) {
-                writer.write(serialize(tasks[i]));
+            for (int i = 0; i < tasks.size(); i++) {
+                writer.write(serialize(tasks.get(i)));
                 writer.newLine();
             }
         }
     }
 
     /**
-     * Loads saved tasks into the supplied array.
+     * Loads saved tasks into the supplied task list.
      *
-     * @param tasks the array into which loaded tasks are placed
-     * @return the number of tasks loaded
+     * @param tasks the task list into which loaded tasks are placed
      * @throws IOException if the data file cannot be read
      */
-    public int load(Task[] tasks) throws IOException {
+    public void load(TaskList tasks) throws IOException {
         if (!Files.exists(DATA_FILE)) {
-            return 0;
+            return;
         }
 
-        int taskCount = 0;
         try (BufferedReader reader = Files.newBufferedReader(DATA_FILE, StandardCharsets.UTF_8)) {
             String line;
-            while ((line = reader.readLine()) != null && taskCount < tasks.length) {
-                tasks[taskCount] = deserialize(line);
-                taskCount++;
+            while ((line = reader.readLine()) != null) {
+                tasks.add(deserialize(line));
             }
         }
-        return taskCount;
     }
 
     /**
