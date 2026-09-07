@@ -34,14 +34,14 @@ public class Parser {
      */
     public Command parse(String command, TaskList tasks) {
         return switch (parseCommandType(command)) {
-        case BYE -> new ExitCommand();
-        case LIST -> new ListCommand();
-        case FIND -> new FindCommand(parseFindKeyword(command));
-        case DELETE -> new DeleteCommand(parseTaskIndex(command, "delete", tasks));
-        case MARK -> new MarkCommand(parseTaskIndex(command, "mark", tasks));
-        case UNMARK -> new UnmarkCommand(parseTaskIndex(command, "unmark", tasks));
-        case EVENT, DEADLINE, TODO -> new AddCommand(parseTask(command));
-        case UNKNOWN -> new UnknownCommand();
+            case BYE -> new ExitCommand();
+            case LIST -> new ListCommand();
+            case FIND -> new FindCommand(parseFindKeyword(command));
+            case DELETE -> new DeleteCommand(parseTaskIndex(command, "delete", tasks));
+            case MARK -> new MarkCommand(parseTaskIndex(command, "mark", tasks));
+            case UNMARK -> new UnmarkCommand(parseTaskIndex(command, "unmark", tasks));
+            case EVENT, DEADLINE, TODO -> new AddCommand(parseTask(command));
+            case UNKNOWN -> new UnknownCommand();
         };
     }
 
@@ -64,10 +64,10 @@ public class Parser {
      */
     public Task parseTask(String command) {
         return switch (parseCommandType(command)) {
-        case EVENT -> parseEvent(command);
-        case DEADLINE -> parseDeadline(command);
-        case TODO -> parseToDo(command);
-        default -> throw new IllegalArgumentException("Command does not create a task");
+            case EVENT -> parseEvent(command);
+            case DEADLINE -> parseDeadline(command);
+            case TODO -> parseToDo(command);
+            default -> throw new IllegalArgumentException("Command does not create a task");
         };
     }
 

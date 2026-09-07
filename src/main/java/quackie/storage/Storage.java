@@ -122,10 +122,10 @@ public class Storage {
         String[] fields = line.split("\\|", -1);
         String taskType = fields.length > 0 ? fields[0] : "";
         int expectedFieldCount = switch (taskType) {
-        case "D" -> 4;
-        case "E" -> 5;
-        case "T" -> 3;
-        default -> throw new IOException("Unknown task type: " + taskType);
+            case "D" -> 4;
+            case "E" -> 5;
+            case "T" -> 3;
+            default -> throw new IOException("Unknown task type: " + taskType);
         };
         if (fields.length != expectedFieldCount) {
             throw new IOException("Malformed task record");
@@ -136,10 +136,10 @@ public class Storage {
 
         try {
             Task task = switch (taskType) {
-            case "D" -> new Deadline(decode(fields[2]), decode(fields[3]));
-            case "E" -> new Event(decode(fields[2]), decode(fields[3]), decode(fields[4]));
-            case "T" -> new ToDo(decode(fields[2]));
-            default -> throw new IOException("Unknown task type: " + taskType);
+                case "D" -> new Deadline(decode(fields[2]), decode(fields[3]));
+                case "E" -> new Event(decode(fields[2]), decode(fields[3]), decode(fields[4]));
+                case "T" -> new ToDo(decode(fields[2]));
+                default -> throw new IOException("Unknown task type: " + taskType);
             };
 
             if ("1".equals(fields[1])) {

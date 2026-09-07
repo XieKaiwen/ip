@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import quackie.CommandType;
 import quackie.command.AddCommand;
-import quackie.command.Command;
 import quackie.command.DeleteCommand;
 import quackie.command.ExitCommand;
 import quackie.command.FindCommand;
@@ -59,8 +58,8 @@ class ParserTest {
     void rejectsMalformedTasks() {
         assertThrows(IllegalArgumentException.class, () -> parser.parseTask("todo"));
         assertThrows(IllegalArgumentException.class, () -> parser.parseTask("event meeting"));
-        assertThrows(IllegalArgumentException.class,
-                () -> parser.parseTask("deadline report /by 2019-02-30"));
+        assertThrows(
+                IllegalArgumentException.class, () -> parser.parseTask("deadline report /by 2019-02-30"));
         assertThrows(IllegalArgumentException.class, () -> parser.parse("find", new TaskList()));
     }
 }
