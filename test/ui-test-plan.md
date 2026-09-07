@@ -2,7 +2,7 @@
 
 These tests exercise Quackie's interactive command-line behavior. Each test case starts a fresh process and sends the commands in its `Inputs` block in order.
 
-- Compile command: `javac -d /tmp/ui-test-classes $(find src/main/java -name '*.java' -print)`
+- Compile command: `javac -d /tmp/ui-test-classes $(find src/main/java -name '*.java' ! -path '*/gui/*' ! -name 'Launcher.java' -print)`
 - Program command: `rm -f data/quackie.txt && java -cp /tmp/ui-test-classes quackie.Quackie`
 
 ## Test Case 1: Add a ToDo and list it
