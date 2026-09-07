@@ -41,6 +41,13 @@ class UiTest {
         assertTrue(output.contains("Hello! I'm Quackie."));
         assertTrue(output.contains("1.[T][ ] read book"));
         assertTrue(output.contains("Here are the matching tasks in your list:"));
+        assertTrue(output.contains(String.join(System.lineSeparator(),
+                " Got it. I've added this task:",
+                "   [T][ ] read book",
+                " Now you have 1 tasks in the list.")));
+        assertTrue(output.contains(String.join(System.lineSeparator(),
+                " Nice! I've marked this task as done:",
+                "   [T][ ] read book")));
         assertTrue(output.contains("OOPS!!! problem"));
         assertTrue(output.contains("Bye. Hope to see you again soon!"));
     }

@@ -40,9 +40,7 @@ public class Ui {
     /** Displays the welcome banner and prompt. */
     public void showWelcome() {
         showLine();
-        output.println(BANNER);
-        output.println("Hello! I'm Quackie.");
-        output.println("What can I do for you?");
+        showMessages(BANNER, "Hello! I'm Quackie.", "What can I do for you?");
         showLine();
     }
 
@@ -106,9 +104,10 @@ public class Ui {
      * @param taskCount the number of tasks after the addition
      */
     public void showTaskAdded(Task task, int taskCount) {
-        output.println(" Got it. I've added this task:");
-        output.println("   " + task);
-        output.println(" Now you have " + taskCount + " tasks in the list.");
+        showMessages(
+                " Got it. I've added this task:",
+                "   " + task,
+                " Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -118,9 +117,10 @@ public class Ui {
      * @param taskCount the number of tasks after the deletion
      */
     public void showTaskDeleted(Task task, int taskCount) {
-        output.println(" Noted. I've removed this task:");
-        output.println("   " + task);
-        output.println(" Now you have " + taskCount + " tasks in the list.");
+        showMessages(
+                " Noted. I've removed this task:",
+                "   " + task,
+                " Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -129,8 +129,7 @@ public class Ui {
      * @param task the task that was marked as done
      */
     public void showTaskMarked(Task task) {
-        output.println(" Nice! I've marked this task as done:");
-        output.println("   " + task);
+        showMessages(" Nice! I've marked this task as done:", "   " + task);
     }
 
     /**
@@ -139,7 +138,17 @@ public class Ui {
      * @param task the task that was marked as not done
      */
     public void showTaskUnmarked(Task task) {
-        output.println(" OK, I've marked this task as not done yet:");
-        output.println("   " + task);
+        showMessages(" OK, I've marked this task as not done yet:", "   " + task);
+    }
+
+    /**
+     * Displays any number of message lines in their supplied order.
+     *
+     * @param messages message lines to display
+     */
+    private void showMessages(String... messages) {
+        for (String message : messages) {
+            output.println(message);
+        }
     }
 }
