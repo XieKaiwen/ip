@@ -33,6 +33,9 @@ public class Parser {
      * @throws IllegalArgumentException if a task-creation command is malformed
      */
     public Command parse(String command, TaskList tasks) {
+        assert command != null : "Command to parse must not be null";
+        assert tasks != null : "Task list used for parsing must not be null";
+
         return switch (parseCommandType(command)) {
             case BYE -> new ExitCommand();
             case LIST -> new ListCommand();
