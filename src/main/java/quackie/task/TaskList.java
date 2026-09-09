@@ -1,5 +1,6 @@
 package quackie.task;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -98,12 +99,9 @@ public class TaskList {
     public TaskList find(String keyword) {
         String normalisedKeyword = keyword.toLowerCase(Locale.ROOT);
         TaskList matches = new TaskList();
-        for (int i = 0; i < taskCount; i++) {
-            String normalisedDescription = tasks[i].getDescription().toLowerCase(Locale.ROOT);
-            if (normalisedDescription.contains(normalisedKeyword)) {
-                matches.add(tasks[i]);
-            }
-        }
+        Arrays.stream(tasks, 0, taskCount)
+                .filter(task -> task.getDescription().toLowerCase(Locale.ROOT).contains(normalisedKeyword))
+                .forEach(matches::add);
         return matches;
     }
 
