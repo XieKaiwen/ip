@@ -56,6 +56,7 @@ class ParserTest {
     /** Verifies malformed task commands produce useful validation failures. */
     @Test
     void rejectsMalformedTasks() {
+        assertThrows(AssertionError.class, () -> parser.parse(null, new TaskList()));
         assertThrows(IllegalArgumentException.class, () -> parser.parseTask("todo"));
         assertThrows(IllegalArgumentException.class, () -> parser.parseTask("event meeting"));
         assertThrows(

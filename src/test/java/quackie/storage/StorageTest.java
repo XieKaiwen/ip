@@ -2,6 +2,7 @@ package quackie.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -54,5 +55,14 @@ class StorageTest {
 
         assertFalse(Files.exists(temporaryDirectory.resolve("missing.txt")));
         assertEquals(0, tasks.size());
+    }
+
+    /** Verifies that storage rejects a missing task list at its boundary. */
+    @Test
+    void rejectsNullTaskLists() {
+        Storage storage = new Storage(temporaryDirectory.resolve("tasks.txt"));
+
+        assertThrows(AssertionError.class, () -> storage.save(null));
+        assertThrows(AssertionError.class, () -> storage.load(null));
     }
 }
