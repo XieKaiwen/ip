@@ -33,6 +33,8 @@ public class TaskList {
      * @return {@code true} when the task was added, or {@code false} when the list is full
      */
     public boolean add(Task task) {
+        assert task != null : "Task added to the list must not be null";
+
         if (taskCount >= tasks.length) {
             return false;
         }

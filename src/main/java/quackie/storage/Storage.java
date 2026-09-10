@@ -47,6 +47,8 @@ public class Storage {
      * @throws IOException if the data directory or file cannot be written
      */
     public void save(TaskList tasks) throws IOException {
+        assert tasks != null : "Task list to save must not be null";
+
         Path parentDirectory = dataFile.getParent();
         if (parentDirectory != null) {
             Files.createDirectories(parentDirectory);
@@ -67,6 +69,8 @@ public class Storage {
      * @throws IOException if the data file cannot be read
      */
     public void load(TaskList tasks) throws IOException {
+        assert tasks != null : "Task list to load into must not be null";
+
         if (!Files.exists(dataFile)) {
             return;
         }

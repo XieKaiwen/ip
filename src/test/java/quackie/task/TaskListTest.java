@@ -38,6 +38,7 @@ class TaskListTest {
         }
 
         assertFalse(tasks.add(new ToDo("too many")));
+        assertThrows(AssertionError.class, () -> tasks.add(null));
         assertThrows(IndexOutOfBoundsException.class, () -> tasks.get(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> tasks.delete(100));
     }
