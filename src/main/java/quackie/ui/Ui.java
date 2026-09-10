@@ -79,10 +79,7 @@ public class Ui {
      * @param tasks the tasks to display
      */
     public void showTasks(TaskList tasks) {
-        output.println(" Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            output.println(" " + (i + 1) + "." + tasks.get(i));
-        }
+        showTaskList(" Here are the tasks in your list:", tasks);
     }
 
     /**
@@ -91,7 +88,17 @@ public class Ui {
      * @param tasks the matching tasks to display
      */
     public void showMatchingTasks(TaskList tasks) {
-        output.println(" Here are the matching tasks in your list:");
+        showTaskList(" Here are the matching tasks in your list:", tasks);
+    }
+
+    /**
+     * Displays a heading followed by a numbered task list.
+     *
+     * @param heading heading that describes the supplied tasks
+     * @param tasks tasks to display
+     */
+    private void showTaskList(String heading, TaskList tasks) {
+        output.println(heading);
         for (int i = 0; i < tasks.size(); i++) {
             output.println(" " + (i + 1) + "." + tasks.get(i));
         }
