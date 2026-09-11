@@ -73,6 +73,25 @@ public class TaskList {
     }
 
     /**
+     * Replaces a task while retaining the original task's completion status.
+     *
+     * @param index the zero-based index of the task to replace
+     * @param replacement the task containing the new details
+     * @return the replacement task stored in the list
+     * @throws IndexOutOfBoundsException if the index is outside the list
+     */
+    public Task update(int index, Task replacement) {
+        assert replacement != null : "Replacement task must not be null";
+
+        Task original = get(index);
+        if (original.isDone()) {
+            replacement.markAsDone();
+        }
+        tasks[index] = replacement;
+        return replacement;
+    }
+
+    /**
      * Marks the task at a zero-based index as done.
      *
      * @param index the zero-based task index

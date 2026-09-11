@@ -22,10 +22,13 @@ class TaskListTest {
         assertEquals(first, tasks.get(0));
         tasks.markAsDone(1);
         assertTrue(tasks.get(1).isDone());
+        Task replacement = tasks.update(1, new Deadline("updated", "Friday"));
+        assertEquals(replacement, tasks.get(1));
+        assertTrue(replacement.isDone());
         tasks.markAsUndone(1);
         assertFalse(tasks.get(1).isDone());
         assertEquals(first, tasks.delete(0));
-        assertEquals(second, tasks.get(0));
+        assertEquals(replacement, tasks.get(0));
         assertEquals(1, tasks.size());
     }
 

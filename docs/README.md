@@ -20,6 +20,21 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
+## Updating tasks
+
+Replace a task's details without deleting and recreating it. The task keeps its
+position and completion status.
+
+Use `update INDEX TASK_COMMAND`, where `TASK_COMMAND` is a complete `todo`,
+`deadline`, or `event` command.
+
+Example: `update 2 event project meeting /from 2pm /to 5pm`
+
+```text
+Updated this task:
+  [E][ ] project meeting (from: 2pm to: 5pm)
+```
+
 ## Feature ABC
 
 // Feature details

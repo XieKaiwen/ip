@@ -16,6 +16,8 @@ public enum CommandType {
     MARK,
     /** Marks one stored task as not done. */
     UNMARK,
+    /** Replaces the details of one stored task. */
+    UPDATE,
     /** Adds an event task. */
     EVENT,
     /** Adds a deadline task. */
@@ -44,6 +46,8 @@ public enum CommandType {
             return MARK;
         } else if (input.equals("unmark") || input.startsWith("unmark ")) {
             return UNMARK;
+        } else if (input.equals("update") || input.startsWith("update ")) {
+            return UPDATE;
         } else if (input.equals("event") || input.startsWith("event ")) {
             return EVENT;
         } else if (input.equals("deadline") || input.startsWith("deadline ")) {

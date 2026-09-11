@@ -25,11 +25,13 @@ class QuackieTest {
 
         String addResponse = quackie.getResponse("todo read book");
         String markResponse = quackie.getResponse("mark 1");
+        String updateResponse = quackie.getResponse("update 1 deadline read novel /by Friday");
         String listResponse = quackie.getResponse("list");
 
         assertTrue(addResponse.contains("I've added this task"));
         assertTrue(markResponse.contains("marked this task as done"));
-        assertTrue(listResponse.contains("1.[T][X] read book"));
+        assertTrue(updateResponse.contains("Updated this task"));
+        assertTrue(listResponse.contains("1.[D][X] read novel (by: Friday)"));
     }
 
     /** Verifies GUI-specific formatting and exit-command recognition. */

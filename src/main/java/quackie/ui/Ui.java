@@ -131,6 +131,15 @@ public class Ui {
     }
 
     /**
+     * Displays confirmation for an updated task.
+     *
+     * @param task the task after its details were replaced
+     */
+    public void showTaskUpdated(Task task) {
+        showMessages(" Updated this task:", "   " + task);
+    }
+
+    /**
      * Displays confirmation for a task marked as done.
      *
      * @param task the task that was marked as done

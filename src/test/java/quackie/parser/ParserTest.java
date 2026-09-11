@@ -15,6 +15,7 @@ import quackie.command.ListCommand;
 import quackie.command.MarkCommand;
 import quackie.command.UnknownCommand;
 import quackie.command.UnmarkCommand;
+import quackie.command.UpdateCommand;
 import quackie.task.Deadline;
 import quackie.task.Event;
 import quackie.task.TaskList;
@@ -51,6 +52,7 @@ class ParserTest {
         assertEquals(0, parser.parseTaskIndex("mark 1", "mark", tasks));
         assertEquals(-1, parser.parseTaskIndex("mark 0", "mark", tasks));
         assertEquals(-1, parser.parseTaskIndex("mark nope", "mark", tasks));
+        assertInstanceOf(UpdateCommand.class, parser.parse("update 1 todo replacement", tasks));
     }
 
     /** Verifies malformed task commands produce useful validation failures. */
@@ -62,5 +64,11 @@ class ParserTest {
         assertThrows(
                 IllegalArgumentException.class, () -> parser.parseTask("deadline report /by 2019-02-30"));
         assertThrows(IllegalArgumentException.class, () -> parser.parse("find", new TaskList()));
+        assertThrows(IllegalArgumentException.class, () -> parser.parse("update", new TaskList()));
+        assertThrows(IllegalArgumentException.class, () ->
+                parser.parse("update 2 todo replacement", new TaskList()));
+        TaskList tasks = new TaskList();
+        tasks.add(new ToDo("existing"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parse("update 1 list", tasks));
     }
 }

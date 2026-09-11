@@ -10,6 +10,7 @@ import quackie.command.ListCommand;
 import quackie.command.MarkCommand;
 import quackie.command.UnknownCommand;
 import quackie.command.UnmarkCommand;
+import quackie.command.UpdateCommand;
 import quackie.task.Deadline;
 import quackie.task.Event;
 import quackie.task.Task;
@@ -43,6 +44,7 @@ public class Parser {
             case DELETE -> new DeleteCommand(parseTaskIndex(command, "delete", tasks));
             case MARK -> new MarkCommand(parseTaskIndex(command, "mark", tasks));
             case UNMARK -> new UnmarkCommand(parseTaskIndex(command, "unmark", tasks));
+            case UPDATE -> parseUpdateCommand(command, tasks);
             case EVENT, DEADLINE, TODO -> new AddCommand(parseTask(command));
             case UNKNOWN -> new UnknownCommand();
         };
@@ -104,6 +106,43 @@ public class Parser {
             throw new IllegalArgumentException("Please provide a keyword to find.");
         }
         return keyword;
+    }
+
+    /**
+     * Parses the task number and replacement task from an update command.
+     *
+     * @param command the complete update command
+     * @param tasks the current task list
+     * @return a command that replaces the selected task
+     * @throws IllegalArgumentException if the index or replacement task is invalid
+     */
+    private Command parseUpdateCommand(String command, TaskList tasks) {
+        String updateDetails = command.substring("update".length()).trim();
+        int separator = updateDetails.indexOf(' ');
+        if (separator < 1) {
+            throw new IllegalArgumentException(
+                    "An update needs a task number and replacement todo, deadline, or event command.");
+        }
+
+        int taskNumber;
+        try {
+            taskNumber = Integer.parseInt(updateDetails.substring(0, separator));
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("Please provide a valid task number.");
+        }
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new IllegalArgumentException("Please provide a valid task number.");
+        }
+
+        String replacementCommand = updateDetails.substring(separator + 1).trim();
+        CommandType replacementType = parseCommandType(replacementCommand);
+        if (replacementType != CommandType.TODO
+                && replacementType != CommandType.DEADLINE
+                && replacementType != CommandType.EVENT) {
+            throw new IllegalArgumentException(
+                    "An update needs a replacement todo, deadline, or event command.");
+        }
+        return new UpdateCommand(taskNumber - 1, parseTask(replacementCommand));
     }
 
     /**
