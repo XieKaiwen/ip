@@ -32,6 +32,7 @@ class UiTest {
         ui.showMatchingTasks(tasks);
         ui.showTaskAdded(task, 1);
         ui.showTaskDeleted(task, 0);
+        ui.showTaskUpdated(task);
         ui.showTaskMarked(task);
         ui.showTaskUnmarked(task);
         ui.showError("problem");
@@ -47,6 +48,9 @@ class UiTest {
                 " Now you have 1 tasks in the list.")));
         assertTrue(output.contains(String.join(System.lineSeparator(),
                 " Nice! I've marked this task as done:",
+                "   [T][ ] read book")));
+        assertTrue(output.contains(String.join(System.lineSeparator(),
+                " Updated this task:",
                 "   [T][ ] read book")));
         assertTrue(output.contains("OOPS!!! problem"));
         assertTrue(output.contains("Bye. Hope to see you again soon!"));

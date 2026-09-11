@@ -1162,3 +1162,137 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
+
+## Test Case 32: Update a completed task and preserve its state
+
+* Aim: Verify that `update` replaces a task in place, can change its type, and preserves its done status.
+* Inputs:
+  ```text
+  todo read book
+  mark 1
+  update 1 deadline read novel /by Friday
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [T][X] read book
+____________________________________________________________
+____________________________________________________________
+ Updated this task:
+   [D][X] read novel (by: Friday)
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][X] read novel (by: Friday)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 33: Load an updated task after restart
+
+* Aim: Verify that an updated task and its preserved done status are saved to disk.
+Program command: `java -cp /tmp/ui-test-classes quackie.Quackie`
+* Inputs:
+  ```text
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][X] read novel (by: Friday)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 34: Reject invalid update commands
+
+* Aim: Verify that invalid task numbers and replacement commands are rejected without changing the original task.
+* Inputs:
+  ```text
+  todo original task
+  update
+  update nope todo replacement
+  update 0 todo replacement
+  update 2 todo replacement
+  update 1 list
+  update 1 todo
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] original task
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An update needs a task number and replacement todo, deadline, or event command.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An update needs a replacement todo, deadline, or event command.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! A ToDo needs a description.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] original task
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```

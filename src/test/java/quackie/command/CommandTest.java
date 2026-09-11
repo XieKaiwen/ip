@@ -36,6 +36,8 @@ class CommandTest {
         assertTrue(tasks.get(0).isDone());
         new UnmarkCommand(0).execute(tasks, ui, storage);
         assertFalse(tasks.get(0).isDone());
+        new UpdateCommand(0, new ToDo("read novel")).execute(tasks, ui, storage);
+        assertEquals("read novel", tasks.get(0).getDescription());
         new ListCommand().execute(tasks, ui, storage);
         new FindCommand("book").execute(tasks, ui, storage);
         new DeleteCommand(0).execute(tasks, ui, storage);

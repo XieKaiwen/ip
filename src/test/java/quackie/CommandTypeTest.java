@@ -12,6 +12,7 @@ class CommandTypeTest {
         assertEquals(CommandType.BYE, CommandType.fromInput("bye"));
         assertEquals(CommandType.LIST, CommandType.fromInput("list"));
         assertEquals(CommandType.FIND, CommandType.fromInput("find book"));
+        assertEquals(CommandType.UPDATE, CommandType.fromInput("update 1 todo read novel"));
         assertEquals(CommandType.TODO, CommandType.fromInput("todo read book"));
         assertEquals(CommandType.DEADLINE, CommandType.fromInput("deadline report /by Friday"));
     }
