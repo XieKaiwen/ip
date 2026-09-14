@@ -61,4 +61,17 @@ class TaskListTest {
         assertEquals("return book", matches.get(1).getDescription());
         assertEquals(0, tasks.find("groceries").size());
     }
+
+    /** Verifies duplicate detection by task type and task-specific details. */
+    @Test
+    void detectsEquivalentTasks() {
+        TaskList tasks = new TaskList();
+        tasks.add(new ToDo("Read Book"));
+        tasks.add(new Deadline("submit report", "Friday"));
+
+        assertTrue(tasks.contains(new ToDo("read book")));
+        assertFalse(tasks.contains(new Deadline("read book", "Friday")));
+        assertTrue(tasks.contains(new Deadline("SUBMIT REPORT", "friday")));
+        assertFalse(tasks.containsExcept(new ToDo("read book"), 0));
+    }
 }

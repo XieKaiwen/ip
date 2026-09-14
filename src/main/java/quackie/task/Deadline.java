@@ -122,6 +122,12 @@ public class Deadline extends Task {
     }
 
     @Override
+    boolean hasSameDetails(Task other) {
+        return super.hasSameDetails(other)
+                && by.equalsIgnoreCase(((Deadline) other).by);
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " (by: " + getDisplayBy() + ")";
     }

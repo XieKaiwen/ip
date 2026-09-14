@@ -44,6 +44,34 @@ public class TaskList {
     }
 
     /**
+     * Checks whether an equivalent task is already stored.
+     *
+     * @param task task whose details should be checked
+     * @return {@code true} when a task with the same type and details exists
+     */
+    public boolean contains(Task task) {
+        return containsExcept(task, -1);
+    }
+
+    /**
+     * Checks for an equivalent task while ignoring one list position.
+     *
+     * @param task task whose details should be checked
+     * @param ignoredIndex zero-based position to exclude, or {@code -1} to exclude none
+     * @return {@code true} when another task with the same type and details exists
+     */
+    public boolean containsExcept(Task task, int ignoredIndex) {
+        assert task != null : "Task checked for duplication must not be null";
+
+        for (int i = 0; i < taskCount; i++) {
+            if (i != ignoredIndex && tasks[i].hasSameDetails(task)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns the task at a zero-based index.
      *
      * @param index the zero-based task index

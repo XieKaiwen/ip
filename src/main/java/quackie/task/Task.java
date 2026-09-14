@@ -66,6 +66,19 @@ public class Task {
         return "";
     }
 
+    /**
+     * Checks whether another task has the same type and user-entered details.
+     * Completion status is deliberately ignored when detecting duplicates.
+     *
+     * @param other task to compare with this task
+     * @return {@code true} when both tasks describe the same work
+     */
+    boolean hasSameDetails(Task other) {
+        return other != null
+                && getClass().equals(other.getClass())
+                && description.equalsIgnoreCase(other.description);
+    }
+
     @Override
     public String toString() {
         return getTypeIcon() + "[" + getStatusIcon() + "] " + description;

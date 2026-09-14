@@ -25,6 +25,10 @@ public class UpdateCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
+        if (tasks.containsExcept(replacement, index)) {
+            ui.showError("That task is already in your list.");
+            return;
+        }
         Task updatedTask = tasks.update(index, replacement);
         saveTasks(tasks, ui, storage);
         ui.showTaskUpdated(updatedTask);

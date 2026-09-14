@@ -40,7 +40,93 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 2: Reject invalid delete task numbers
+## Test Case 2: Accept irregular command whitespace
+
+* Aim: Verify that leading, trailing, and repeated whitespace does not prevent a valid command from being parsed.
+* Inputs:
+  ```text
+    todo   read   book  
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 3: Reject ambiguous and inconsistent task data
+
+* Aim: Verify that duplicate tasks, repeated markers, and reversed structured event times are rejected.
+* Inputs:
+  ```text
+  todo read book
+  todo READ BOOK
+  deadline report /by Friday /by Saturday
+  event meeting /from 2pm /from 3pm /to 4pm
+  event meeting /from 2/12/2019 1600 /to 2/12/2019 1400
+  list
+  bye
+  ```
+* Expected output:
+  ```text
+____________________________________________________________
+                           _      _      
+  __ _  _   _   __ _  ___| | __ (_)  ___ 
+ / _` || | | | / _` |/ __| |/ / | | / _ \ 
+| (_| || |_| || (_| | (__|   <  | ||  __/
+ \__, | \__,_| \__,_|\___|_|\_\ |_|\___|
+    |_|                                  
+Hello! I'm Quackie.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! That task is already in your list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! A deadline needs exactly one /by date or time.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An event needs exactly one /from time and one /to time.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! The event end time must be after its start time.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+  ```
+
+## Test Case 4: Reject invalid delete task numbers
 
 - Aim: Verify that missing, zero, out-of-range, and non-numeric delete arguments do not change the task list.
 - Inputs:
@@ -91,7 +177,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 3: Delete the only task
+## Test Case 5: Delete the only task
 
 - Aim: Verify that deleting the only task leaves an empty list and reports zero tasks.
 - Inputs:
@@ -131,7 +217,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 4: Compact the list after deleting first and last tasks
+## Test Case 6: Compact the list after deleting first and last tasks
 
 - Aim: Verify that deleting tasks at both ends shifts the remaining task into the correct list position.
 - Inputs:
@@ -190,7 +276,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 5: Delete a completed task from mixed task types
+## Test Case 7: Delete a completed task from mixed task types
 
 - Aim: Verify that delete removes the selected task while preserving the remaining task types and statuses.
 - Inputs:
@@ -249,7 +335,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 6: Mark a ToDo as done
+## Test Case 8: Mark a ToDo as done
 
 - Aim: Verify that `mark N` changes a ToDo's status to done and that `list` shows `[X]`.
 - Inputs:
@@ -296,7 +382,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 7: Reverse a ToDo's done status
+## Test Case 9: Reverse a ToDo's done status
 
 - Aim: Verify that `unmark N` changes a completed ToDo back to not done.
 - Inputs:
@@ -348,7 +434,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 8: Add a Deadline
+## Test Case 10: Add a Deadline
 
 - Aim: Verify that `deadline` stores the task description and its `/by` date or time.
 - Inputs:
@@ -383,7 +469,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 9: Add an Event
+## Test Case 11: Add an Event
 
 - Aim: Verify that `event` stores the description, start time, and end time.
 - Inputs:
@@ -418,7 +504,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 10: Reject an empty ToDo
+## Test Case 12: Reject an empty ToDo
 
 - Aim: Verify that an empty `todo` is rejected without adding a task.
 - Inputs:
@@ -457,7 +543,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 11: Reject an unknown command
+## Test Case 13: Reject an unknown command
 
 - Aim: Verify that an unrecognized command is rejected without changing the task list.
 - Inputs:
@@ -496,7 +582,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 12: Reject a blank command
+## Test Case 14: Reject a blank command
 
 - Aim: Verify that blank input is rejected without changing the task list.
 - Inputs:
@@ -524,7 +610,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 13: Reject invalid mark and unmark task numbers
+## Test Case 15: Reject invalid mark and unmark task numbers
 
 - Aim: Verify that missing, out-of-range, and non-numeric task numbers are rejected without changing task status.
 - Inputs:
@@ -571,7 +657,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 14: Reject a malformed deadline
+## Test Case 16: Reject a malformed deadline
 
 - Aim: Verify that a deadline without a description or `/by` value is rejected without adding a task.
 - Inputs:
@@ -599,7 +685,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 15: Reject a malformed event
+## Test Case 17: Reject a malformed event
 
 - Aim: Verify that an event without a description, `/from`, or `/to` value is rejected without adding a task.
 - Inputs:
@@ -626,7 +712,7 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
-## Test Case 16: Save tasks before restart
+## Test Case 18: Save tasks before restart
 
 * Aim: Verify that adding tasks writes their descriptions, types, and statuses to the data file.
 Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes quackie.Quackie```
@@ -668,7 +754,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 17: Load tasks after restart
+## Test Case 19: Load tasks after restart
 
 * Aim: Verify that tasks saved by a previous session are loaded when Quackie starts.
 Program command: ```java -cp /tmp/ui-test-classes quackie.Quackie```
@@ -699,7 +785,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 18: Start without a data file
+## Test Case 20: Start without a data file
 
 * Aim: Verify that Quackie starts with an empty list when no data file exists.
 Program command: ```rm -f data/quackie.txt && java -cp /tmp/ui-test-classes quackie.Quackie```
@@ -728,7 +814,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 19: Handle a malformed data file
+## Test Case 21: Handle a malformed data file
 
 * Aim: Verify that malformed saved data is reported and does not prevent a fresh session.
 Program command: ```rm -f data/quackie.txt && mkdir -p data && printf 'corrupt-record\n' > data/quackie.txt && java -cp /tmp/ui-test-classes quackie.Quackie```
@@ -758,7 +844,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 20: Format an ISO deadline date
+## Test Case 22: Format an ISO deadline date
 
 - Aim: Verify that an ISO deadline date is stored as a date and displayed in a human-readable format.
 - Inputs:
@@ -793,7 +879,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 21: Format a deadline date and time
+## Test Case 23: Format a deadline date and time
 
 - Aim: Verify that a day-month-year deadline with a 24-hour time is stored as a date and time and displayed clearly.
 - Inputs:
@@ -828,7 +914,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 22: Reject an invalid structured deadline
+## Test Case 24: Reject an invalid structured deadline
 
 - Aim: Verify that an invalid date is rejected without adding a deadline task.
 - Inputs:
@@ -860,7 +946,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 23: Save a structured deadline before restart
+## Test Case 25: Save a structured deadline before restart
 
 * Aim: Verify that a structured deadline is written to local storage without losing its original date value.
 Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes quackie.Quackie```
@@ -891,7 +977,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 24: Load a structured deadline after restart
+## Test Case 26: Load a structured deadline after restart
 
 * Aim: Verify that a saved structured deadline is reconstructed with its human-readable date display.
 Program command: `java -cp /tmp/ui-test-classes quackie.Quackie`
@@ -921,7 +1007,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 25: Save a structured date-time before restart
+## Test Case 27: Save a structured date-time before restart
 
 * Aim: Verify that a structured deadline date and time are written to local storage without losing the original value.
 Program command: ```rm -f data/quackie.txt; rmdir data 2>/dev/null || true; java -cp /tmp/ui-test-classes quackie.Quackie```
@@ -952,7 +1038,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 26: Load a structured date-time after restart
+## Test Case 28: Load a structured date-time after restart
 
 * Aim: Verify that a saved structured deadline date and time are reconstructed with their human-readable display.
 Program command: `java -cp /tmp/ui-test-classes quackie.Quackie`
@@ -982,7 +1068,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 27: Reject an invalid structured time
+## Test Case 29: Reject an invalid structured time
 
 * Aim: Verify that an invalid 24-hour time is rejected without adding a deadline task.
 * Inputs:
@@ -1014,7 +1100,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 28: Find multiple matching tasks
+## Test Case 30: Find multiple matching tasks
 
 * Aim: Verify that `find` returns every task whose description contains the keyword while preserving task order.
 * Inputs:
@@ -1062,7 +1148,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 29: Find tasks without case sensitivity
+## Test Case 31: Find tasks without case sensitivity
 
 * Aim: Verify that `find` matches task descriptions regardless of letter case.
 * Inputs:
@@ -1097,7 +1183,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 30: Report no matching tasks
+## Test Case 32: Report no matching tasks
 
 * Aim: Verify that `find` displays an empty matching-task list when no descriptions contain the keyword.
 * Inputs:
@@ -1131,7 +1217,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 31: Reject an empty find keyword
+## Test Case 33: Reject an empty find keyword
 
 * Aim: Verify that `find` without a keyword is rejected without changing the task list.
 * Inputs:
@@ -1163,7 +1249,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 32: Update a completed task and preserve its state
+## Test Case 34: Update a completed task and preserve its state
 
 * Aim: Verify that `update` replaces a task in place, can change its type, and preserves its done status.
 * Inputs:
@@ -1208,7 +1294,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 33: Load an updated task after restart
+## Test Case 35: Load an updated task after restart
 
 * Aim: Verify that an updated task and its preserved done status are saved to disk.
 Program command: `java -cp /tmp/ui-test-classes quackie.Quackie`
@@ -1238,7 +1324,7 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
   ```
 
-## Test Case 34: Reject invalid update commands
+## Test Case 36: Reject invalid update commands
 
 * Aim: Verify that invalid task numbers and replacement commands are rejected without changing the original task.
 * Inputs:
