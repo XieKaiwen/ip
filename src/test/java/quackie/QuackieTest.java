@@ -1,8 +1,11 @@
 package quackie;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
@@ -40,7 +43,21 @@ class QuackieTest {
         Quackie quackie = new Quackie(new Storage(temporaryDirectory.resolve("commands.txt")));
 
         assertEquals("OOPS!!! Please enter a command.", quackie.getResponse(""));
+        assertEquals("OOPS!!! Please enter a command.", quackie.getResponse(null));
         assertEquals("Bye. Hope to see you again soon!", quackie.getResponse("bye"));
         assertTrue(quackie.isExitCommand("bye"));
+        assertTrue(quackie.isExitCommand("  bye  "));
+        assertFalse(quackie.isExitCommand("list"));
+    }
+
+    /** Verifies corrupted startup data does not prevent the chatbot from serving commands. */
+    @Test
+    void startsWithEmptyListWhenStoredDataIsCorrupted() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("corrupted.txt");
+        Files.writeString(dataFile, "not-a-task-record");
+
+        Quackie quackie = new Quackie(new Storage(dataFile));
+
+        assertEquals("Here are the tasks in your list:", quackie.getResponse("list"));
     }
 }

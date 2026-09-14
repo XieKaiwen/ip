@@ -78,6 +78,8 @@ class MainWindowTest {
             sendButton.fire();
             assertEquals("OOPS!!! Please enter a command.", getLastResponse(dialogContainer));
             assertTrue(getLastDialog(dialogContainer).lookup(".error-bubble") != null);
+            Label errorAvatar = (Label) getLastDialog(dialogContainer).lookup("#avatar");
+            assertEquals("!", errorAvatar.getText());
 
             userInput.setText("bye");
             sendButton.fire();

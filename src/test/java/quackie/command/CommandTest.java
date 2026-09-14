@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -77,9 +78,50 @@ class CommandTest {
         assertEquals("write report", tasks.get(1).getDescription());
     }
 
+    /** Verifies a full task list rejects another task with a useful message. */
+    @Test
+    void rejectsTaskWhenListIsFull() {
+        TaskList tasks = new TaskList();
+        for (int i = 0; i < 100; i++) {
+            tasks.add(new ToDo("task " + i));
+        }
+        ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
+        Ui ui = createUi(capturedOutput);
+
+        new AddCommand(new ToDo("one too many")).execute(
+                tasks, ui, new Storage(temporaryDirectory.resolve("full.txt")));
+
+        assertEquals(100, tasks.size());
+        assertTrue(capturedOutput.toString(StandardCharsets.UTF_8).contains("task list is full"));
+    }
+
+    /** Verifies storage failures are reported while leaving the session usable. */
+    @Test
+    void reportsStorageWriteFailure() {
+        TaskList tasks = new TaskList();
+        tasks.add(new ToDo("read book"));
+        ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
+        Ui ui = createUi(capturedOutput);
+        Storage failingStorage = new Storage(temporaryDirectory.resolve("unused.txt")) {
+            @Override
+            public void save(TaskList taskList) throws IOException {
+                throw new IOException("simulated write failure");
+            }
+        };
+
+        new MarkCommand(0).execute(tasks, ui, failingStorage);
+
+        assertTrue(tasks.get(0).isDone());
+        assertTrue(capturedOutput.toString(StandardCharsets.UTF_8).contains("couldn't save your tasks"));
+    }
+
     /** Creates an in-memory UI for command tests. */
     private Ui createUi() {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        return createUi(new ByteArrayOutputStream());
+    }
+
+    /** Creates an in-memory UI whose output remains available to the caller. */
+    private Ui createUi(ByteArrayOutputStream output) {
         return new Ui(new Scanner(""), new PrintStream(output, true, StandardCharsets.UTF_8));
     }
 }

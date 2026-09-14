@@ -65,4 +65,39 @@ class StorageTest {
         assertThrows(AssertionError.class, () -> storage.save(null));
         assertThrows(AssertionError.class, () -> storage.load(null));
     }
+
+    /** Verifies each malformed storage field is reported as corrupted data. */
+    @Test
+    void rejectsMalformedRecords() throws IOException {
+        String[] malformedRecords = {
+            "X|0|cmVhZCBib29r",
+            "T|2|cmVhZCBib29r",
+            "T|0",
+            "T|0|not-base64!",
+            "D|0|cmVwb3J0|MjAxOS0wMi0zMA=="
+        };
+
+        for (int i = 0; i < malformedRecords.length; i++) {
+            Path dataFile = temporaryDirectory.resolve("malformed-" + i + ".txt");
+            Files.writeString(dataFile, malformedRecords[i]);
+            Storage storage = new Storage(dataFile);
+
+            assertThrows(IOException.class, () -> storage.load(new TaskList()));
+        }
+    }
+
+    /** Verifies that separators and non-ASCII text survive a storage round trip. */
+    @Test
+    void preservesSpecialCharacters() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("special.txt");
+        Storage storage = new Storage(dataFile);
+        TaskList tasks = new TaskList();
+        tasks.add(new ToDo("read | review 🦆"));
+
+        storage.save(tasks);
+        TaskList loaded = new TaskList();
+        storage.load(loaded);
+
+        assertEquals("read | review 🦆", loaded.get(0).getDescription());
+    }
 }
