@@ -35,5 +35,17 @@ class DeadlineTest {
     @Test
     void rejectsInvalidStructuredDate() {
         assertThrows(IllegalArgumentException.class, () -> new Deadline("report", "2019-02-30"));
+        assertThrows(IllegalArgumentException.class, () -> new Deadline("report", "2/12/2019 2500"));
+    }
+
+    /** Verifies legacy free-form deadlines remain available for backwards compatibility. */
+    @Test
+    void preservesFreeFormDeadline() {
+        Deadline deadline = new Deadline("return book", "next Sunday");
+
+        assertNull(deadline.getDate());
+        assertNull(deadline.getDateTime());
+        assertEquals("next Sunday", deadline.getBy());
+        assertEquals("[D][ ] return book (by: next Sunday)", deadline.toString());
     }
 }
