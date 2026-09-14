@@ -71,6 +71,7 @@ class MainWindowTest {
             userInput.setText("");
             sendButton.fire();
             assertEquals("OOPS!!! Please enter a command.", getLastResponse(dialogContainer));
+            assertTrue(getLastDialog(dialogContainer).lookup(".error-bubble") != null);
 
             userInput.setText("bye");
             sendButton.fire();
@@ -83,10 +84,15 @@ class MainWindowTest {
 
     /** Returns the text in the latest chatbot dialog. */
     private static String getLastResponse(VBox dialogContainer) {
-        int lastIndex = dialogContainer.getChildren().size() - 1;
-        DialogBox dialogBox = (DialogBox) dialogContainer.getChildren().get(lastIndex);
+        DialogBox dialogBox = getLastDialog(dialogContainer);
         Label response = (Label) dialogBox.lookup("#dialog");
         return response.getText();
+    }
+
+    /** Returns the latest chatbot dialog. */
+    private static DialogBox getLastDialog(VBox dialogContainer) {
+        int lastIndex = dialogContainer.getChildren().size() - 1;
+        return (DialogBox) dialogContainer.getChildren().get(lastIndex);
     }
 
     /** Runs a test action on the JavaFX application thread. */

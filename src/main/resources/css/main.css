@@ -22,6 +22,15 @@
     -fx-text-fill: #c9d6e5;
 }
 
+.status {
+    -fx-background-color: rgba(34, 166, 161, 0.24);
+    -fx-background-radius: 12px;
+    -fx-font-size: 10px;
+    -fx-font-weight: 800;
+    -fx-padding: 4px 9px;
+    -fx-text-fill: #8de3df;
+}
+
 .conversation,
 .conversation > .viewport {
     -fx-background-color: #eef3f7;
@@ -29,6 +38,10 @@
 
 .conversation {
     -fx-border-color: transparent;
+}
+
+#dialogContainer {
+    -fx-background-color: linear-gradient(to bottom, #eef3f7, #f6f8fa);
 }
 
 .composer {

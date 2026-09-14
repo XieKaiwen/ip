@@ -13,6 +13,8 @@ import quackie.Quackie;
  * Controls Quackie's main chat window.
  */
 public class MainWindow extends BorderPane {
+    private static final String ERROR_PREFIX = "OOPS!!!";
+
     @FXML
     private ScrollPane scrollPane;
 
@@ -61,7 +63,10 @@ public class MainWindow extends BorderPane {
         if (!input.isBlank()) {
             dialogContainer.getChildren().add(DialogBox.getUserDialog(input));
         }
-        dialogContainer.getChildren().add(DialogBox.getQuackieDialog(response));
+        DialogBox responseDialog = response.startsWith(ERROR_PREFIX)
+                ? DialogBox.getErrorDialog(response)
+                : DialogBox.getQuackieDialog(response);
+        dialogContainer.getChildren().add(responseDialog);
         userInput.clear();
 
         if (quackie.isExitCommand(input)) {
