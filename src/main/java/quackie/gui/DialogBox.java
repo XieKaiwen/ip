@@ -64,7 +64,7 @@ public class DialogBox extends HBox {
      */
     public static DialogBox getQuackieDialog(String message) {
         DialogBox dialogBox = new DialogBox(message);
-        dialogBox.avatar.setText("Q");
+        dialogBox.avatar.setText("🦆");
         dialogBox.avatar.getStyleClass().add("quackie-avatar");
         dialogBox.dialog.getStyleClass().add("quackie-bubble");
         return dialogBox;

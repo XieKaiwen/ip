@@ -24,7 +24,7 @@
                         <Label styleClass="status" text="READY" />
                     </children>
                 </HBox>
-                <Label styleClass="subtitle" text="Your focused little task companion" />
+                <Label styleClass="subtitle" text="Plan it. Do it. Quack on." />
             </children>
             <padding>
                 <Insets bottom="18.0" left="24.0" right="24.0" top="18.0" />
@@ -51,7 +51,7 @@
             <children>
                 <Label fx:id="hintText"
                        styleClass="hint"
-                       text="Try: todo read book  •  list  •  mark 1  •  find book  •  bye" />
+                       text="Drop a task in the pond: todo read book  •  list  •  mark 1  •  bye" />
                 <HBox alignment="CENTER" spacing="10.0">
                     <children>
                         <TextField fx:id="userInput"
