@@ -59,6 +59,12 @@ class MainWindowTest {
             Button sendButton = (Button) loader.getNamespace().get("sendButton");
             VBox dialogContainer = (VBox) loader.getNamespace().get("dialogContainer");
 
+            DialogBox welcomeDialog = (DialogBox) dialogContainer.getChildren().getFirst();
+            Label welcomeMessage = (Label) welcomeDialog.lookup("#dialog");
+            Label quackieAvatar = (Label) welcomeDialog.lookup("#avatar");
+            assertTrue(welcomeMessage.getText().startsWith("Quack! I'm Quackie"));
+            assertEquals("🦆", quackieAvatar.getText());
+
             userInput.setText("todo read book");
             sendButton.fire();
             assertEquals(3, dialogContainer.getChildren().size());

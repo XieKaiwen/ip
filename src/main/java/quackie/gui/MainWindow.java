@@ -48,7 +48,9 @@ public class MainWindow extends BorderPane {
     public void setQuackie(Quackie quackie) {
         this.quackie = quackie;
         dialogContainer.getChildren().add(
-                DialogBox.getQuackieDialog("Hello! I'm Quackie.\nWhat can I do for you?"));
+                DialogBox.getQuackieDialog(
+                        "Quack! I'm Quackie, your task companion.\n"
+                                + "What shall we get done today?"));
         userInput.requestFocus();
     }
 
