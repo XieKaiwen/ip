@@ -16,9 +16,14 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="quackie.gui.MainWindow">
     <top>
-        <VBox spacing="4.0" styleClass="header">
+        <VBox spacing="8.0" styleClass="header">
             <children>
-                <Label styleClass="title" text="QUACKIE" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label styleClass="title" text="QUACKIE" />
+                        <Label styleClass="status" text="READY" />
+                    </children>
+                </HBox>
                 <Label styleClass="subtitle" text="Your focused little task companion" />
             </children>
             <padding>
