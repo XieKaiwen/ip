@@ -71,4 +71,27 @@ class ParserTest {
         tasks.add(new ToDo("existing"));
         assertThrows(IllegalArgumentException.class, () -> parser.parse("update 1 list", tasks));
     }
+
+    /** Verifies that harmless whitespace variations do not change command meaning. */
+    @Test
+    void acceptsIrregularWhitespace() {
+        TaskList tasks = new TaskList();
+
+        assertInstanceOf(AddCommand.class, parser.parse("  todo   read   book  ", tasks));
+        ToDo task = (ToDo) parser.parseTask("todo   read   book");
+        assertEquals("read book", task.getDescription());
+        assertInstanceOf(Event.class,
+                parser.parseTask(" event meeting   /from  2pm   /to  3pm "));
+    }
+
+    /** Verifies that ambiguous repeated task markers are rejected. */
+    @Test
+    void rejectsRepeatedMarkers() {
+        assertThrows(IllegalArgumentException.class, () ->
+                parser.parseTask("deadline report /by Friday /by Saturday"));
+        assertThrows(IllegalArgumentException.class, () ->
+                parser.parseTask("event meeting /from 2pm /from 3pm /to 4pm"));
+        assertThrows(IllegalArgumentException.class, () ->
+                parser.parseTask("event meeting /from 2pm /to 3pm /to 4pm"));
+    }
 }

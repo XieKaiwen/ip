@@ -22,7 +22,14 @@ public class AddCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        tasks.add(task);
+        if (tasks.contains(task)) {
+            ui.showError("That task is already in your list.");
+            return;
+        }
+        if (!tasks.add(task)) {
+            ui.showError("Your task list is full. Delete a task before adding another.");
+            return;
+        }
         saveTasks(tasks, ui, storage);
         ui.showTaskAdded(task, tasks.size());
     }

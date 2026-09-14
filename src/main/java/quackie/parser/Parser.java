@@ -37,15 +37,16 @@ public class Parser {
         assert command != null : "Command to parse must not be null";
         assert tasks != null : "Task list used for parsing must not be null";
 
-        return switch (parseCommandType(command)) {
+        String normalisedCommand = normaliseWhitespace(command);
+        return switch (parseCommandType(normalisedCommand)) {
             case BYE -> new ExitCommand();
             case LIST -> new ListCommand();
-            case FIND -> new FindCommand(parseFindKeyword(command));
-            case DELETE -> new DeleteCommand(parseTaskIndex(command, "delete", tasks));
-            case MARK -> new MarkCommand(parseTaskIndex(command, "mark", tasks));
-            case UNMARK -> new UnmarkCommand(parseTaskIndex(command, "unmark", tasks));
-            case UPDATE -> parseUpdateCommand(command, tasks);
-            case EVENT, DEADLINE, TODO -> new AddCommand(parseTask(command));
+            case FIND -> new FindCommand(parseFindKeyword(normalisedCommand));
+            case DELETE -> new DeleteCommand(parseTaskIndex(normalisedCommand, "delete", tasks));
+            case MARK -> new MarkCommand(parseTaskIndex(normalisedCommand, "mark", tasks));
+            case UNMARK -> new UnmarkCommand(parseTaskIndex(normalisedCommand, "unmark", tasks));
+            case UPDATE -> parseUpdateCommand(normalisedCommand, tasks);
+            case EVENT, DEADLINE, TODO -> new AddCommand(parseTask(normalisedCommand));
             case UNKNOWN -> new UnknownCommand();
         };
     }
@@ -68,10 +69,11 @@ public class Parser {
      * @throws IllegalArgumentException if the command is malformed
      */
     public Task parseTask(String command) {
-        return switch (parseCommandType(command)) {
-            case EVENT -> parseEvent(command);
-            case DEADLINE -> parseDeadline(command);
-            case TODO -> parseToDo(command);
+        String normalisedCommand = normaliseWhitespace(command);
+        return switch (parseCommandType(normalisedCommand)) {
+            case EVENT -> parseEvent(normalisedCommand);
+            case DEADLINE -> parseDeadline(normalisedCommand);
+            case TODO -> parseToDo(normalisedCommand);
             default -> throw new IllegalArgumentException("Command does not create a task");
         };
     }
@@ -154,6 +156,11 @@ public class Parser {
      */
     private Task parseEvent(String command) {
         String eventDetails = command.substring("event".length()).trim();
+        if (countOccurrences(eventDetails, " /from ") > 1
+                || countOccurrences(eventDetails, " /to ") > 1) {
+            throw new IllegalArgumentException(
+                    "An event needs exactly one /from time and one /to time.");
+        }
         int fromMarker = eventDetails.indexOf(" /from ");
         int toMarker = eventDetails.indexOf(" /to ", fromMarker + " /from ".length());
         String eventDescription = fromMarker >= 0
@@ -176,6 +183,9 @@ public class Parser {
      */
     private Task parseDeadline(String command) {
         String deadlineDetails = command.substring("deadline".length()).trim();
+        if (countOccurrences(deadlineDetails, " /by ") > 1) {
+            throw new IllegalArgumentException("A deadline needs exactly one /by date or time.");
+        }
         int byMarker = deadlineDetails.indexOf(" /by ");
         String deadlineDescription = byMarker >= 0
                 ? deadlineDetails.substring(0, byMarker) : deadlineDetails;
@@ -205,5 +215,21 @@ public class Parser {
             throw new IllegalArgumentException("A ToDo needs a description.");
         }
         return new ToDo(description);
+    }
+
+    /** Collapses surrounding and repeated whitespace without changing command meaning. */
+    private String normaliseWhitespace(String command) {
+        return command.strip().replaceAll("\\s+", " ");
+    }
+
+    /** Counts non-overlapping occurrences of a marker in a command. */
+    private int countOccurrences(String value, String marker) {
+        int count = 0;
+        int searchFrom = 0;
+        while ((searchFrom = value.indexOf(marker, searchFrom)) >= 0) {
+            count++;
+            searchFrom += marker.length();
+        }
+        return count;
     }
 }

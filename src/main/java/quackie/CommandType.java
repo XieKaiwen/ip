@@ -34,25 +34,30 @@ public enum CommandType {
      * @return the matching command type, or {@link #UNKNOWN} if none matches
      */
     public static CommandType fromInput(String input) {
-        if (input.equals("bye")) {
+        if (input == null) {
+            return UNKNOWN;
+        }
+
+        String normalisedInput = input.strip().replaceAll("\\s+", " ");
+        if (normalisedInput.equals("bye")) {
             return BYE;
-        } else if (input.equals("list")) {
+        } else if (normalisedInput.equals("list")) {
             return LIST;
-        } else if (input.equals("find") || input.startsWith("find ")) {
+        } else if (normalisedInput.equals("find") || normalisedInput.startsWith("find ")) {
             return FIND;
-        } else if (input.equals("delete") || input.startsWith("delete ")) {
+        } else if (normalisedInput.equals("delete") || normalisedInput.startsWith("delete ")) {
             return DELETE;
-        } else if (input.equals("mark") || input.startsWith("mark ")) {
+        } else if (normalisedInput.equals("mark") || normalisedInput.startsWith("mark ")) {
             return MARK;
-        } else if (input.equals("unmark") || input.startsWith("unmark ")) {
+        } else if (normalisedInput.equals("unmark") || normalisedInput.startsWith("unmark ")) {
             return UNMARK;
-        } else if (input.equals("update") || input.startsWith("update ")) {
+        } else if (normalisedInput.equals("update") || normalisedInput.startsWith("update ")) {
             return UPDATE;
-        } else if (input.equals("event") || input.startsWith("event ")) {
+        } else if (normalisedInput.equals("event") || normalisedInput.startsWith("event ")) {
             return EVENT;
-        } else if (input.equals("deadline") || input.startsWith("deadline ")) {
+        } else if (normalisedInput.equals("deadline") || normalisedInput.startsWith("deadline ")) {
             return DEADLINE;
-        } else if (input.equals("todo") || input.startsWith("todo ")) {
+        } else if (normalisedInput.equals("todo") || normalisedInput.startsWith("todo ")) {
             return TODO;
         }
         return UNKNOWN;

@@ -61,6 +61,22 @@ class CommandTest {
         new UnmarkCommand(-1).execute(tasks, ui, storage);
     }
 
+    /** Verifies duplicate additions and updates leave the task list unchanged. */
+    @Test
+    void rejectsDuplicateTaskDetails() {
+        TaskList tasks = new TaskList();
+        Ui ui = createUi();
+        Storage storage = new Storage(temporaryDirectory.resolve("duplicates.txt"));
+
+        new AddCommand(new ToDo("read book")).execute(tasks, ui, storage);
+        new AddCommand(new ToDo("READ BOOK")).execute(tasks, ui, storage);
+        new AddCommand(new ToDo("write report")).execute(tasks, ui, storage);
+        new UpdateCommand(1, new ToDo("read book")).execute(tasks, ui, storage);
+
+        assertEquals(2, tasks.size());
+        assertEquals("write report", tasks.get(1).getDescription());
+    }
+
     /** Creates an in-memory UI for command tests. */
     private Ui createUi() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
