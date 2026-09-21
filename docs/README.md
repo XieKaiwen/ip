@@ -2,6 +2,8 @@
 
 Quackie is a desktop task manager with a friendly duck personality. It keeps todos, deadlines, and events in one place, saves changes automatically, and accepts short keyboard commands through its chat-style interface.
 
+![Quackie's chat window showing added tasks and a task list](Ui.png)
+
 ## Getting started
 
 1. Install Java 25.
