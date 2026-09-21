@@ -114,7 +114,7 @@ public class Ui {
         showMessages(
                 " Got it. I've added this task:",
                 "   " + task,
-                " Now you have " + taskCount + " tasks in the list.");
+                formatTaskCount(taskCount));
     }
 
     /**
@@ -127,7 +127,19 @@ public class Ui {
         showMessages(
                 " Noted. I've removed this task:",
                 "   " + task,
-                " Now you have " + taskCount + " tasks in the list.");
+                formatTaskCount(taskCount));
+    }
+
+    /**
+     * Builds the task-count sentence shown after adding or deleting a task.
+     * Uses the singular noun only for exactly one task, e.g. "1 task" but "0 tasks" and "2 tasks".
+     *
+     * @param taskCount the number of tasks currently in the list
+     * @return the grammatical task-count sentence, with Quackie's leading-space indentation
+     */
+    static String formatTaskCount(int taskCount) {
+        String noun = taskCount == 1 ? "task" : "tasks";
+        return " Now you have " + taskCount + " " + noun + " in the list.";
     }
 
     /**

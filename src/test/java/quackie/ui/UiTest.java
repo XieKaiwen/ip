@@ -45,7 +45,11 @@ class UiTest {
         assertTrue(output.contains(String.join(System.lineSeparator(),
                 " Got it. I've added this task:",
                 "   [T][ ] read book",
-                " Now you have 1 tasks in the list.")));
+                " Now you have 1 task in the list.")));
+        assertTrue(output.contains(String.join(System.lineSeparator(),
+                " Noted. I've removed this task:",
+                "   [T][ ] read book",
+                " Now you have 0 tasks in the list.")));
         assertTrue(output.contains(String.join(System.lineSeparator(),
                 " Nice! I've marked this task as done:",
                 "   [T][ ] read book")));
@@ -54,5 +58,13 @@ class UiTest {
                 "   [T][ ] read book")));
         assertTrue(output.contains("OOPS!!! problem"));
         assertTrue(output.contains("Bye. Hope to see you again soon!"));
+    }
+
+    /** Verifies that the task-count sentence uses the singular noun only for exactly one task. */
+    @Test
+    void formatsTaskCountWithCorrectPlural() {
+        assertEquals(" Now you have 0 tasks in the list.", Ui.formatTaskCount(0));
+        assertEquals(" Now you have 1 task in the list.", Ui.formatTaskCount(1));
+        assertEquals(" Now you have 2 tasks in the list.", Ui.formatTaskCount(2));
     }
 }

@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -43,6 +45,33 @@ class StorageTest {
         assertEquals("[T][ ] read book", loaded.get(0).toString());
         assertEquals("[D][X] submit report (by: Oct 15 2019)", loaded.get(1).toString());
         assertEquals("[E][ ] meeting (from: 2pm to: 3pm)", loaded.get(2).toString());
+    }
+
+    /** Verifies that structured event times keep their stored format and friendly display after reloading. */
+    @Test
+    void roundTripsStructuredEventTimes() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("events.txt");
+        // A record in the existing save format: type|status|Base64(description)|Base64(from)|Base64(to).
+        String savedRecord = String.join("|", "E", "0", encode("project meeting"),
+                encode("24/9/2026 1400"), encode("24/9/2026 1600"));
+        Files.writeString(dataFile, savedRecord);
+        Storage storage = new Storage(dataFile);
+        TaskList loaded = new TaskList();
+
+        storage.load(loaded);
+        storage.save(loaded);
+        TaskList reloaded = new TaskList();
+        storage.load(reloaded);
+
+        assertEquals(savedRecord, Files.readString(dataFile).strip());
+
+        Event event = (Event) reloaded.get(0);
+        assertEquals("24/9/2026 1400", event.getFrom());
+        assertEquals("24/9/2026 1600", event.getTo());
+        assertEquals("[E][ ] project meeting (from: Sep 24 2026, 2:00 PM to: Sep 24 2026, 4:00 PM)",
+                event.toString());
+        assertTrue(reloaded.contains(new Event("project meeting", "24/9/2026 1400", "24/9/2026 1600")));
+        assertEquals(1, reloaded.find("meeting").size());
     }
 
     /** Verifies that loading a missing file leaves the list empty. */
@@ -99,5 +128,15 @@ class StorageTest {
         storage.load(loaded);
 
         assertEquals("read | review 🦆", loaded.get(0).getDescription());
+    }
+
+    /**
+     * Encodes text the same way the storage file does, so tests can write records in the saved format.
+     *
+     * @param value the text to encode
+     * @return the Base64 representation of the text
+     */
+    private static String encode(String value) {
+        return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
     }
 }
