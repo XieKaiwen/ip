@@ -14,8 +14,6 @@ public class Deadline extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
     private static final DateTimeFormatter INPUT_DATE_TIME_FORMAT =
             DateTimeFormatter.ofPattern("d/M/uuuu HHmm", Locale.ENGLISH);
-    private static final DateTimeFormatter DISPLAY_DATE_TIME_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a", Locale.ENGLISH);
     private static final String ISO_DATE_PATTERN = "\\d{4}-\\d{1,2}-\\d{1,2}";
     private static final String DATE_TIME_PATTERN = "\\d{1,2}/\\d{1,2}/\\d{4} \\d{4}";
 

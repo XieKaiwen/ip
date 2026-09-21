@@ -1,9 +1,19 @@
 package quackie.task;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 /**
  * Represents a task entered during the current Quackie session.
  */
 public class Task {
+    /**
+     * Shared user-facing format for structured date-times, so deadlines and events display them identically
+     * (e.g. "Sep 24 2026, 2:00 PM").
+     */
+    static final DateTimeFormatter DISPLAY_DATE_TIME_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a", Locale.ENGLISH);
+
     /** The user-facing text describing this task. */
     protected String description;
 
